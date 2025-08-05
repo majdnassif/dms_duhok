@@ -1,0 +1,33 @@
+*/config/development
+*/logs/log-*.php
+!*/logs/index.html
+*/cache/*
+!*/cache/index.html
+!*/cache/.htaccess
+
+user_guide_src/build/*
+user_guide_src/cilexer/build/*
+user_guide_src/cilexer/dist/*
+user_guide_src/cilexer/pycilexer.egg-info/*
+
+#codeigniter 3
+application/logs/*
+!application/logs/index.html
+!application/logs/.htaccess
+/vendor/
+/.idea
+/application/sessions/*
+.DS_Store
+/assets/uploads/attachments/*
+/db/*
+
+
+# **************** application/config/config.php *************
+# to ignore next changes in  application/config/config.php i used this command              git update-index --assume-unchanged application/config/config.php
+# in future if i want to upload changes to the git again i will need to run this command      git update-index --no-assume-unchanged application/config/config.php
+
+
+
+# **************** application/config/database.php *************
+# to ignore next changes in  application/config/database.php i used this command              git update-index --assume-unchanged application/config/database.php
+# in future if i want to upload changes to the git again i will need to run this command      git update-index --no-assume-unchanged application/config/database.php

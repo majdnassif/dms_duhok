@@ -1,0 +1,322 @@
+/* Global RTL Direction */
+* {
+    direction: rtl !important;
+}
+
+body {
+    text-align: right !important;
+}
+
+.inbox-messages-column {
+    width: 40%;
+    border-left: 1px solid #e9ecef;
+    display: flex;
+    flex-direction: column;
+    transition: all 0.3s ease;
+}
+
+.inbox-message-icons {
+    margin-left: 10px;
+    margin-right: unset !important;
+}
+
+.inbox-message-icons i {
+    margin-right: unset !important;
+    margin-left: 5px;
+}
+
+
+.inbox-message-icons i:last-child {
+    color: #007bff;
+    margin-right: unset !important;
+    margin-left: 0;
+}
+
+.dataTable thead tr th {
+    text-align: center !important;
+}
+
+
+.page-sidebar{
+    float: right;
+}
+.navbar .logo-box{
+    float: right;
+}
+
+.topmenu-outer {
+    margin-left: 0px !important;
+    margin-right: 160px;
+}
+
+.top-menu{
+    display: flex;
+    justify-content: space-between;
+}
+
+.navbar-nav.navbar-right {
+    /*margin-left: auto !important;*/
+    /*margin-right: 0 !important;*/
+    float: none !important;
+    display: flex;
+    flex-direction: row;
+}
+.waves-effect{
+    display: flex !important;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.inbox_budget{
+    float: right
+}
+
+.inbox_totla_bueget{
+    margin-right: 5px !important;
+}
+
+.form-horizontal .form-group {
+    margin-right: -15px;
+    margin-left: -15px;
+    display: flex
+;
+    flex-direction: row;
+}
+.form-horizontal .control-label {
+
+    text-align: left;
+}
+
+/*@media (min-width: 992px) {*/
+/*    .col-md-1, .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9 {*/
+/*        float: right;*/
+/*    }*/
+/*}*/
+
+.compact-menu:not(.small-sidebar) .menu.accordion-menu li a {
+    text-align: center !important;
+}
+.navbar .navbar-left {
+    margin-right: 0 !important;
+    margin-left: auto !important;
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.menu.accordion-menu li a .badge {
+    float: left !important;
+}
+
+.read-span, .assign-span{
+    margin-right: 1rem !important;
+}
+
+thead th {
+    text-align: right !important;
+}
+tbody th {
+    text-align: right !important;
+}
+
+tbody .reprots_delay_time_value {
+    direction: ltr !important;
+}
+
+.sidebar-profile-image {
+    float: right !important;
+    margin-left: 10px;
+    margin-right: 0;
+}
+
+.sidebar-profile-details {
+    text-align: right;
+}
+
+.dropdown-menu {
+    right: 0 !important;
+    left: auto !important;
+    text-align: right;
+}
+
+input[type="text"], input[type="search"], input[type="email"], textarea {
+    direction: rtl !important;
+    text-align: right !important;
+}
+
+.fa-angle-right::before {
+    content: "\f104"; /* fa-angle-left */
+}
+
+.fa-angle-left::before {
+    content: "\f105"; /* fa-angle-right */
+}
+
+
+
+
+
+/* Sidebar positioning */
+.layout-fixed .main-sidebar {
+    right: 0 !important;
+    left: auto !important;
+}
+
+/* Sidebar content push */
+.content-wrapper,
+.main-footer,
+.main-header {
+    margin-left: 0 !important;
+    margin-right: 250px !important;
+}
+
+/* Navbar brand image */
+.brand-image {
+    float: right !important;
+}
+
+/* Navbar auto margin fix */
+.mr-auto-navbav {
+    margin-left: auto !important;
+    margin-right: 0 !important;
+}
+
+/* Navbar link padding */
+.navbar-expand .navbar-nav .nav-link {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+}
+
+/* iCheck RTL fix */
+[class*="icheck-"] > input:first-child:checked + input[type=hidden] + label::after,
+[class*="icheck-"] > input:first-child:checked + label::after {
+    right: 15px !important;
+    left: auto !important;
+}
+
+/* Nav sidebar icon alignment */
+.nav-sidebar .nav-link > .right,
+.nav-sidebar .nav-link > p > .right {
+    left: 1rem !important;
+    right: auto !important;
+}
+
+.nav-sidebar .nav-link > .right:nth-child(2),
+.nav-sidebar .nav-link > p > .right:nth-child(2) {
+    left: 2.2rem !important;
+    right: auto !important;
+}
+
+/* Icon positioning inside boxes */
+.small-box .icon > i {
+    left: 15px !important;
+    right: auto !important;
+}
+
+/* Collapsed Sidebar on large screens */
+@media (min-width: 992px) {
+    .sidebar-mini.sidebar-collapse .content-wrapper,
+    .sidebar-mini.sidebar-collapse .main-footer,
+    .sidebar-mini.sidebar-collapse .main-header {
+        margin-right: 4.6rem !important;
+        margin-left: 0 !important;
+    }
+}
+
+/* Sidebar RTL behavior on mobile */
+@media (max-width: 767.98px) {
+    .main-sidebar,
+    .main-sidebar::before {
+        margin-right: -250px !important;
+        margin-left: auto !important;
+        box-shadow: none !important;
+    }
+
+    .content-wrapper,
+    .content-wrapper::before,
+    .main-footer,
+    .main-footer::before,
+    .main-header,
+    .main-header::before {
+        margin-right: 0 !important;
+        margin-left: 0 !important;
+    }
+
+    .sidebar-open .main-sidebar,
+    .sidebar-open .main-sidebar::before {
+        margin-right: 0 !important;
+    }
+}
+
+/* Nav sidebar */
+.nav-sidebar {
+    direction: rtl !important;
+    text-align: right;
+    padding-right: 0 !important;
+}
+
+/* Modal close button fix */
+.modal-header .close,
+.modal-header .mailbox-attachment-close {
+    margin: -1rem -1rem -1rem -1rem;
+}
+
+/* Breadcrumb direction fix */
+.breadcrumb-item + .breadcrumb-item::before {
+    float: right;
+    padding-left: 0.5rem;
+    padding-right: 0;
+    content: "/";
+}
+
+/* Float utilities reversed */
+.float-sm-right {
+    float: left !important;
+}
+
+.float-sm-left {
+    float: right !important;
+}
+
+/* Card title alignment */
+.card-title {
+    float: right !important;
+    font-size: 1.1rem;
+    font-weight: 400;
+    margin: 0;
+}
+
+/* Card tools float */
+.card-header > .card-tools {
+    float: left !important;
+    margin-left: -0.625rem !important;
+    margin-right: auto !important;
+}
+
+/* DataTables Button Area */
+.button-datatable,
+.dt-buttons {
+    text-align: left !important;
+    direction: ltr !important;
+}
+
+div.dataTables_wrapper div.dataTables_filter {
+    text-align: left !important;
+}
+
+/* Button group RTL fix */
+.btn-group-sm {
+    direction: ltr !important;
+}
+
+/* Navbar vertical fix */
+.navbar-nav {
+    flex-direction: column;
+    padding-right: 0 !important;
+}
+
+/* Grid offset RTL fix */
+@media (min-width: 768px) {
+    .offset-md-3 {
+        margin-right: 25% !important;
+        margin-left: 0 !important;
+    }
+}
