@@ -19,8 +19,8 @@ if ( ! function_exists('sys_info'))
     function sys_info()
     {
         return array(
-            'title'=>'DMS Erbil',
-            'name'=>'DMS Erbil',
+            'title'=>'DMS Duhok',
+            'name'=>'DMS Duhok',
             'logo'=>base_url('assets/dist/img/MidyaLogo.png'),
             'login_logo'=>base_url('assets/login/images/logo-300.png'),
             'sidebar_footer'=>base_url('assets/dist/img/Midya/MidyaLogo.png'),
