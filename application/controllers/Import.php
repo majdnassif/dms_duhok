@@ -52,41 +52,41 @@ class Import extends CI_Controller
         $filters['import_to_department'] = ['type'=>'tree', 'name'=>'import_to_department', 'id'=>'filter_import_to_department', 'label'=>'To Department', 'onclick'=>"OpenTree('department','filter_import_to_department','filter_import_to_department_id','1')"];
         $filters['import_to_department_id'] = ['type'=>'hidden', 'name'=>'import_to_department_id', 'id'=>'filter_import_to_department_id', 'label'=>'import_to_department_id', 'value'=>''];
 
-        $filters['import_is_direct'] = ['type'=>'custom_html' , 'content'=>'
-                                           <div class="form-group col-xl-6 col-md-4 col-sm-6 col-xs-12">
-                                          <label></label>
-                                            <div class=" border-top pt-3">
-                                                <div class=" align-items-center" style="display: flex; justify-content: space-around;">
-                                                 <div class="col-auto">
-                                                  
-                                                      <label>' . $this->Dictionary->GetKeyword("Is Direct") . '</label>
-                                                  </div>  
-                                                   <div class="col-auto">
-                                                    <label class="custom-label" for="filter_import_is_direct_all"> ' . $this->Dictionary->GetKeyword("All") . '</label>
-                                                    <input class="form-check-input " style="margin-left: -8px !important;" type="radio" id="filter_import_is_direct_all" name="import_is_direct" value="all" checked >
-                                                  </div>
-                                                  
-                                                  <div class="col-auto">
-                                                    <label class="custom-label" for="filter_import_is_direct_yes"> ' . $this->Dictionary->GetKeyword("Yes") . '</label>
-                                                    <input class="form-check-input" style="margin-left: -8px !important;"  type="radio" id="filter_import_is_direct_yes" name="import_is_direct" value="yes" >
-                                                  </div>
-                                                  
-                                                    <div class="col-auto">
-                                                    <label class="custom-label" for="filter_import_is_direct_no">  ' . $this->Dictionary->GetKeyword("No") . '</label>
-                                                    <input class="form-check-input" style="margin-left: -8px !important;"  type="radio" id="filter_import_is_direct_no" name="import_is_direct" value="no" >
-                                                  </div>
-                                                
-                                    
-                                                </div>
-                                              </div>
-                                         </div>',
-            'inputs' => [
-                ['id' => 'filter_import_is_direct_all', 'name' => 'import_is_direct', 'type' => 'radio'],
-                ['id' => 'filter_import_is_direct_yes', 'name' => 'import_is_direct', 'type' => 'radio'],
-                ['id' => 'filter_import_is_direct_no', 'name' => 'import_is_direct', 'type' => 'radio']
-            ]
-
-        ];
+//        $filters['import_is_direct'] = ['type'=>'custom_html' , 'content'=>'
+//                                           <div class="form-group col-xl-6 col-md-4 col-sm-6 col-xs-12">
+//                                          <label></label>
+//                                            <div class=" border-top pt-3">
+//                                                <div class=" align-items-center" style="display: flex; justify-content: space-around;">
+//                                                 <div class="col-auto">
+//
+//                                                      <label>' . $this->Dictionary->GetKeyword("Is Direct") . '</label>
+//                                                  </div>
+//                                                   <div class="col-auto">
+//                                                    <label class="custom-label" for="filter_import_is_direct_all"> ' . $this->Dictionary->GetKeyword("All") . '</label>
+//                                                    <input class="form-check-input " style="margin-left: -8px !important;" type="radio" id="filter_import_is_direct_all" name="import_is_direct" value="all" checked >
+//                                                  </div>
+//
+//                                                  <div class="col-auto">
+//                                                    <label class="custom-label" for="filter_import_is_direct_yes"> ' . $this->Dictionary->GetKeyword("Yes") . '</label>
+//                                                    <input class="form-check-input" style="margin-left: -8px !important;"  type="radio" id="filter_import_is_direct_yes" name="import_is_direct" value="yes" >
+//                                                  </div>
+//
+//                                                    <div class="col-auto">
+//                                                    <label class="custom-label" for="filter_import_is_direct_no">  ' . $this->Dictionary->GetKeyword("No") . '</label>
+//                                                    <input class="form-check-input" style="margin-left: -8px !important;"  type="radio" id="filter_import_is_direct_no" name="import_is_direct" value="no" >
+//                                                  </div>
+//
+//
+//                                                </div>
+//                                              </div>
+//                                         </div>',
+//            'inputs' => [
+//                ['id' => 'filter_import_is_direct_all', 'name' => 'import_is_direct', 'type' => 'radio'],
+//                ['id' => 'filter_import_is_direct_yes', 'name' => 'import_is_direct', 'type' => 'radio'],
+//                ['id' => 'filter_import_is_direct_no', 'name' => 'import_is_direct', 'type' => 'radio']
+//            ]
+//
+//        ];
 
 
 //        $filters['import_book_date'] = ['type'=>'date', 'name'=>'import_book_date', 'id'=>'filter_import_book_date', 'label'=>'Book Date From'];
@@ -94,6 +94,16 @@ class Import extends CI_Controller
         $filters['import_body'] = ['type'=>'text', 'name'=>'import_body', 'id'=>'filter_import_body', 'label'=>'Body'];
 
         $filters['out_number'] = ['type'=>'text', 'name'=>'out_number', 'id'=>'filter_out_number', 'label'=>'Out Number'];
+
+
+        $sql_signed_by = "select import_signed_by as id, import_signed_by as name from (
+                            SELECT  distinct import_signed_by FROM `import`
+                            ) signed_by_list";
+        $assigned_by_list = $this->db->query($sql_signed_by)->result_array();
+        //  var_dump($assigned_by_list);
+        $filters['import_signed_by'] = ['type'=>'select', 'name'=>'import_signed_by', 'id'=>'filter_import_signed_by', 'label'=>'Signed', 'list'=> $assigned_by_list, 'list_name' => 'name', 'list_id' =>'id', 'translate' => false];
+
+
 
 
         $filters['import_book_date'] = ['type'=>'custom_html' , 'content'=>'
@@ -136,13 +146,6 @@ class Import extends CI_Controller
         ];
 
 
-
-        $sql_signed_by = "select import_signed_by as id, import_signed_by as name from (
-                            SELECT  distinct import_signed_by FROM `import`
-                            ) signed_by_list";
-        $assigned_by_list = $this->db->query($sql_signed_by)->result_array();
-        //  var_dump($assigned_by_list);
-        $filters['import_signed_by'] = ['type'=>'select', 'name'=>'import_signed_by', 'id'=>'filter_import_signed_by', 'label'=>'Signed', 'list'=> $assigned_by_list, 'list_name' => 'name', 'list_id' =>'id', 'translate' => false];
 
 
         $filters['import_received_date'] = ['type'=>'custom_html' , 'content'=>'
@@ -188,9 +191,9 @@ class Import extends CI_Controller
 
 
 
-        $sql_import_type = "SELECT import_trace_type_id as id, 	import_trace_type_name	as name FROM `import_trace_type`";
-        $import_types = $this->db->query($sql_import_type)->result_array();
-        $filters['import_type'] = ['type'=>'select', 'name'=>'import_type', 'id'=>'filter_import_type', 'label'=>'Type', 'list'=> $import_types, 'list_name' => 'name', 'list_id' =>'id', 'translate' => false];
+//        $sql_import_type = "SELECT import_trace_type_id as id, 	import_trace_type_name	as name FROM `import_trace_type`";
+//        $import_types = $this->db->query($sql_import_type)->result_array();
+//        $filters['import_type'] = ['type'=>'select', 'name'=>'import_type', 'id'=>'filter_import_type', 'label'=>'Type', 'list'=> $import_types, 'list_name' => 'name', 'list_id' =>'id', 'translate' => false];
 
 
 
@@ -236,39 +239,39 @@ class Import extends CI_Controller
 
 
 
-        $sql_import_type = "SELECT
-                                import_trace_status_id AS id,
-                                import_trace_status_name AS name 
-                            FROM
-                                `import_trace_status`";
-        $import_statuses = $this->db->query($sql_import_type)->result_array();
-        //var_dump($import_statuses);
-        $content = '<div class="form-group col-xl-6 col-md-6 col-sm-6 col-xs-12">
-                                          <label></label>
-                                            <div class=" border-top pt-3">
-                                                <div class=" align-items-center" style="display: flex; justify-content: space-around;">
-                                                 <div class="col-auto">
-                                                    <label > ' . $this->Dictionary->GetKeyword("Status") . '</label>
-                                                  </div>';
-        foreach ($import_statuses as $status) {
-            $content .= ' <div class="col-auto">
-                                <label class="custom-label" for="today">' . $this->Dictionary->GetKeyword($status['name']) . '</label>
-                                <input class="form-check-input today-checkbox" type="checkbox" id="filter_trace_statuses_'.$status['id'] .'" name="trace_statuses" value=" ' .$status['id']. '" checked >
-                          </div> ';
-        }
-
-        $content .=         '</div>
-                              </div>
-                         </div>';
-
-        $filters['trace_status_id'] =
-            //['type'=>'select', 'name'=>'trace_status_id', 'id'=>'filter_trace_status_id', 'label'=>'Trace Status', 'list'=> $import_statuses, 'list_name' => 'name', 'list_id' =>'id', 'translate' => false, 'multiple' => true];
-            ['type'=>'custom_html' , 'content'=>$content,
-                'inputs' => [
-                    ['id' => 'filter_trace_statuses', 'name' => 'trace_statuses', 'type' => 'checkbox_group']
-                ]
-
-            ];
+//        $sql_import_type = "SELECT
+//                                import_trace_status_id AS id,
+//                                import_trace_status_name AS name
+//                            FROM
+//                                `import_trace_status`";
+//        $import_statuses = $this->db->query($sql_import_type)->result_array();
+//        //var_dump($import_statuses);
+//        $content = '<div class="form-group col-xl-6 col-md-6 col-sm-6 col-xs-12">
+//                                          <label></label>
+//                                            <div class=" border-top pt-3">
+//                                                <div class=" align-items-center" style="display: flex; justify-content: space-around;">
+//                                                 <div class="col-auto">
+//                                                    <label > ' . $this->Dictionary->GetKeyword("Status") . '</label>
+//                                                  </div>';
+//        foreach ($import_statuses as $status) {
+//            $content .= ' <div class="col-auto">
+//                                <label class="custom-label" for="today">' . $this->Dictionary->GetKeyword($status['name']) . '</label>
+//                                <input class="form-check-input today-checkbox" type="checkbox" id="filter_trace_statuses_'.$status['id'] .'" name="trace_statuses" value=" ' .$status['id']. '" checked >
+//                          </div> ';
+//        }
+//
+//        $content .=         '</div>
+//                              </div>
+//                         </div>';
+//
+//        $filters['trace_status_id'] =
+//            //['type'=>'select', 'name'=>'trace_status_id', 'id'=>'filter_trace_status_id', 'label'=>'Trace Status', 'list'=> $import_statuses, 'list_name' => 'name', 'list_id' =>'id', 'translate' => false, 'multiple' => true];
+//            ['type'=>'custom_html' , 'content'=>$content,
+//                'inputs' => [
+//                    ['id' => 'filter_trace_statuses', 'name' => 'trace_statuses', 'type' => 'checkbox_group']
+//                ]
+//
+//            ];
 
 
         $cols[0] = 'import_code';
@@ -1837,6 +1840,31 @@ class Import extends CI_Controller
             }
         } else {
             echo json_encode(['exists' => false, 'message' => 'Invalid input']);
+            return;
+        }
+    }
+
+
+    public function AjaxCheckImportExistence()
+    {
+        $book_number = $this->input->post('book_number');
+        $book_date = $this->input->post('book_date');
+        $from_department_id = $this->input->post('from_department_id');
+        if ($book_number && $book_date && $from_department_id) {
+
+            $year = date('Y', strtotime($book_date));
+            $isImportExists = $this->ImportModel->isImportExists($book_number, $year, $from_department_id );
+
+            if ($isImportExists) {
+                echo json_encode(['exists' => true, 'message' => $this->Dictionary->GetKeyword("Import document is already exist") ]);
+                return;
+
+            } else {
+                echo json_encode(['exists' => false, 'message' => $this->Dictionary->GetKeyword("Import document is new")]);
+                return;
+            }
+        } else {
+            echo json_encode(['exists' => false, 'message' => $this->Dictionary->GetKeyword("Invalid input") ]);
             return;
         }
     }

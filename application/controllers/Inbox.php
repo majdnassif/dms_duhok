@@ -88,8 +88,11 @@ class Inbox extends CI_Controller
 
         $filter="";
         //import_code
+        $filtered_on_code = false;
+
         $import_code=$this->input->post("import_code");
         if ($import_code && $import_code!="") {
+            $filtered_on_code = true;
             $filter.=" AND  concat(`import`.import_code, `import`.import_id)   = '$import_code'";
         }
         //import_from_department
@@ -105,20 +108,24 @@ class Inbox extends CI_Controller
 
         $user_department_id = $this->UserModel->user_department_id();
 
+        $filter_trace_type = '';
         if ($lastTraceTypeId == -1) {
             // For received items
-            $filter .= " AND `import_trace`.`import_trace_import_trace_type_id` = 1";
+            $filter_trace_type .= " AND `import_trace`.`import_trace_import_trace_type_id` = 1";
             $filter .= " AND `import_trace`.`import_trace_receiver_department_id`  = '$user_department_id' ";
         } elseif ($lastTraceTypeId !== null) {
             // For specific trace type
-            $filter .= " AND `import_trace`.`import_trace_import_trace_type_id` = $lastTraceTypeId";
+            $filter_trace_type .= " AND `import_trace`.`import_trace_import_trace_type_id` = $lastTraceTypeId";
 
             // Filter by sender/receiver based on trace type
             $user_field = ($lastTraceTypeId == 1) ? 'sender' : 'receiver';
             $filter .= " AND `import_trace`.`import_trace_{$user_field}_department_id` = '$user_department_id' ";
         }
 
+        $filter .= $filter_trace_type;
+
         $InboxDocs = $this->InboxModel->GetInboxList($filter,$start,$length,$order);
+
         $InboxDocsData=$InboxDocs['data'];
         $num_rows=$InboxDocs['count'];
         $ajax=array();
@@ -160,14 +167,42 @@ class Inbox extends CI_Controller
                 'import_trace_is_read'=>$InboxDoc['import_trace_is_read'],
                 'import_trace_sent_date'=>$InboxDoc['import_trace_sent_date'],
                 'selected_trace_type_id'=>$lastTraceTypeId,
+                'last_trace_sender_department' => $InboxDoc['last_trace_sender_department'] ,
+                'last_trace_sender_user' => $InboxDoc['last_trace_sender_user'] ,
                 'Actions'=>$actions
             ];
+        }
+        $notFoundMessageData = [];
+        if($num_rows == 0 && $filtered_on_code){
+            //$notFoundMessage
+            $filterWithoutType = str_replace($filter_trace_type, '', $filter);
+
+            $dataInOtherType = $this->InboxModel->GetInboxFilteredCodeNotFoundInTheList($filterWithoutType);
+            if($dataInOtherType){
+
+                $notFoundMessageData[] =   $dataInOtherType['import_trace_import_trace_type_id'] ;
+                $notFoundMessageData[] = $this->Dictionary->GetKeyword($dataInOtherType['import_trace_type_name']) ;
+
+                if($dataInOtherType['import_trace_import_trace_type_id'] == 1 ){
+
+                    if($dataInOtherType['import_trace_receiver_department_id'] = $user_department_id){
+                        $notFoundMessageData[] = '-1' ;
+                        $notFoundMessageData[] = $this->Dictionary->GetKeyword('Received') ;
+                    }
+
+                }
+
+
+            }
+//            var_dump($dataInOtherType,$user_department_id,  $notFoundMessage);
+//            die();
         }
         echo json_encode([
             "draw" => $draw,
             "recordsTotal" => $num_rows,
             "recordsFiltered" => $num_rows,
-            "data" => $ajax
+            "data" => $ajax,
+            "notFoundMessageData" => $notFoundMessageData
         ]);
 
     }

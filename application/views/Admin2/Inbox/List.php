@@ -539,7 +539,7 @@
                     ' <?= $this->Dictionary->GetKeyword("of"); ?> ' + totalRecords);
 
                 // Process messages
-                processMessages(response.data);
+                processMessages(response.data, response.notFoundMessageData);
 
                 // Update unread counter after processing messages
                 updateUnreadCounter();
@@ -557,10 +557,28 @@
     }
 
     // Process messages from API response
-    function processMessages(data) {
+    function processMessages(data, notFoundMessageData) {
         // Clear message list
         $('#inbox-message-list').empty();
 
+        console.log('notFoundMessageData',notFoundMessageData);
+        if(notFoundMessageData.length > 0 ){
+
+            Swal.fire({
+                icon: "warning",
+                title: "Oops...",
+                text: "<?= $this->Dictionary->GetKeyword("The code exists in"); ?>" + ' '  +  notFoundMessageData[1] ,
+                footer: '<a href="' + '<?= base_url('Inbox/List/') ?>' + notFoundMessageData[0] + '"> <?= $this->Dictionary->GetKeyword("Go To Related Code?"); ?></a>'
+
+            });
+            //     $('#inbox-message-list').html(`
+            //     <div class="inbox-empty">
+            //         <i class="fa fa-envelope-o"></i>
+            //         <p>${notFoundMessageData[1]}</p>
+            //     </div>
+            // `);
+            //     return;
+        }
         // If no messages
         if (data.length === 0) {
             $('#inbox-message-list').html(`
@@ -593,7 +611,10 @@
                 selected_trace_type_id: data[i].selected_trace_type_id,
                 // Randomly set some messages as unread for demonstration
                 // In a real app, you'd get this from the server
-                unread: data[i].import_trace_is_read == 0
+                unread: data[i].import_trace_is_read == 0,
+                last_trace_sender_department: data[i].last_trace_sender_department,
+                last_trace_sender_user: data[i].last_trace_sender_user
+
             };
 
 
@@ -607,12 +628,15 @@
                     <div class="inbox-message-from">${message.from}</div>
                     <div class="inbox-message-subject">${message.subject}</div>
                     <div class="inbox-message-preview">Code: ${message.code}</div>
+                   <div class="inbox-message-from">  ${message.last_trace_sender_user} <i class="fa fa-user"></i> / ${message.last_trace_sender_department}</div>
                 </div>
+
                 <div class="inbox-message-icons">
                     <i class="${message.trace_icon}" title="${message.trace_type}"></i>
-
                 </div>
-                <div class="inbox-message-date">${message.date}</div>
+                <div class="inbox-message-date">
+                    ${message.date}
+                </div>
             </div>
         `);
 

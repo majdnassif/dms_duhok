@@ -75,7 +75,7 @@
                             <label class="control-label col-md-4"><?= $this->Dictionary->GetKeyword('Book Number'); ?></label>
                             <div class="col-md-8">
 
-                                <input type="text" name="import_book_number"
+                                <input type="text" name="import_book_number"  id="import_book_number"
                                        value="<?= (isset($remote_out) && $remote_out['out_book_number']) ? $remote_out['out_book_number'] : '' ?>"
                                        class="form-control">
                             </div>
@@ -84,7 +84,7 @@
                         <div class="form-group">
                             <label class="control-label col-md-4"><?= $this->Dictionary->GetKeyword('Book Date'); ?></label>
                             <div class="col-md-8">
-                                <input type="date" name="import_book_date"
+                                <input type="date" name="import_book_date"   id="import_book_date"
                                        value="<?= (isset($remote_out) && $remote_out['out_book_issue_date']) ? date('Y-m-d', strtotime($remote_out['out_book_issue_date'])) : '' ?>"
                                        class="form-control">
                             </div>
@@ -680,6 +680,49 @@
 
 
     $(document).ready(function () {
+
+
+        function checkFieldsAndSendAjax() {
+            const bookNumber = $('#import_book_number').val().trim();
+            const bookDate = $('#import_book_date').val().trim();
+            const from_department_id = $('#import_from_department_id').val().trim();
+
+            if (bookNumber && bookDate && from_department_id) {
+                // All fields are filled, send the AJAX request
+                $.ajax({
+                    url: '<?= base_url("Import/AjaxCheckImportExistence") ?>',
+                    method: 'POST',
+                    dataType: 'json',
+                    data: {
+                        book_number: bookNumber,
+                        book_date: bookDate,
+                        from_department_id: from_department_id
+                    },
+                    success: function (response) {
+                        if (response.exists) {
+
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Oops...',
+                                text: response.message,
+                            });
+
+                        } else {
+
+                        }
+                    },
+                    error: function () {
+                        alert('An error occurred while checking the out book.');
+                    }
+                });
+            }
+        }
+
+        $('#import_book_number, #import_book_date, #import_from_department_id').on('input change', function () {
+            checkFieldsAndSendAjax();
+        });
+
+
 
         const fromDepartmentField = document.getElementById('import_from_department');
         const bookNumberField = document.querySelector('input[name="import_book_number"]');

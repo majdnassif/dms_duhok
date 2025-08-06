@@ -210,17 +210,13 @@
                     <?= $import['import_code']; ?>
                 </h3>
                 <div class="pull-right">
+
                     <?php if($this->Permission->CheckPermissionOperation('import_edit')): ?>
                         <a href="<?= base_url('Import/Edit/' . $import['import_id']); ?>" class="btn btn-sm btn-warning">
                             <i class="fa fa-edit"></i> <?= $this->Dictionary->GetKeyword('Edit'); ?>
                         </a>
                     <?php endif; ?>
 
-                    <!--                    --><?php //if($this->Permission->CheckPermissionOperation('import_addtrace')): ?>
-                    <!--                        <button class="btn btn-sm btn-success" data-toggle="modal" data-target="#addTraceModal">-->
-                    <!--                            <i class="fa fa-plus"></i> --><?php //= $this->Dictionary->GetKeyword('Add Trace'); ?>
-                    <!--                        </button>-->
-                    <!--                    --><?php //endif; ?>
 
                     <a href="<?= base_url('Import/List'); ?>" class="btn btn-sm btn-default">
                         <i class="fa fa-list"></i> <?= $this->Dictionary->GetKeyword('Back to List'); ?>
@@ -729,7 +725,18 @@
                         <div class="panel panel-primary">
                             <div class="panel-heading">
                                 <h3 class="panel-title"><?= $this->Dictionary->GetKeyword('Trace History'); ?></h3>
+
+                                <div class="pull-right">
+
+                                    <?php if($this->Permission->CheckPermissionOperation('import_addtrace')): ?>
+                                        <button type="button" class="btn btn-sm btn-success btn-self-trace-sent"  data-toggle="modal" data-target="#addTraceModalSent" data-type="1" data-status="1">
+                                            <i class="fa fa-mail-forward"></i> <?= $this->Dictionary->GetKeyword('Sent To Action'); ?>
+                                        </button>
+                                    <?php endif; ?>
+                                </div>
+
                             </div>
+
                             <div class="panel-body">
                                 <?php if (isset($import_traces) && !empty($import_traces)): ?>
                                     <table class="table table-bordered table-striped">
@@ -809,170 +816,6 @@
 </div>
 <!-- /.content-wrapper -->
 
-<!-- Add Trace Modal -->
-<div class="modal fade" id="addTraceModal" tabindex="-1" role="dialog" aria-labelledby="addTraceModalLabel">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <form id="addTraceForm" action="<?= base_url('Import/AddTrace'); ?>" method="post" enctype="multipart/form-data">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="addTraceModalLabel"><?= $this->Dictionary->GetKeyword('Add New Trace'); ?></h4>
-                </div>
-                <div class="modal-body">
-                    <input type="hidden" name="import_id" value="<?= $import['import_id']; ?>">
-
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="trace_type"><?= $this->Dictionary->GetKeyword('Trace Type'); ?> *</label>
-                                <select name="import_trace_type_id" id="trace_type" class="form-control" required>
-                                    <option value=""><?= $this->Dictionary->GetKeyword('Select Type'); ?></option>
-                                    <?php if (isset($trace_types)): ?>
-                                        <?php foreach ($trace_types as $type): ?>
-                                            <option value="<?= $type['import_trace_type_id']; ?>"><?= $this->Dictionary->GetKeyword($type['import_trace_type_name']); ?></option>
-                                        <?php endforeach; ?>
-                                    <?php endif; ?>
-                                </select>
-                            </div>
-                        </div>
-                        <!--                        <div class="col-md-6">-->
-                        <!--                            <div class="form-group">-->
-                        <!--                                <label for="trace_status">--><?php //= $this->Dictionary->GetKeyword('Status'); ?><!-- *</label>-->
-                        <!--                                <select name="import_trace_status_id" id="trace_status" class="form-control" required>-->
-                        <!--                                    <option value="">--><?php //= $this->Dictionary->GetKeyword('Select Status'); ?><!--</option>-->
-                        <!--                                    --><?php //if (isset($trace_statuses)): ?>
-                        <!--                                        --><?php //foreach ($trace_statuses as $status): ?>
-                        <!--                                            <option value="--><?php //= $status['import_trace_status_id']; ?><!--">--><?php //= $status['import_trace_status_name']; ?><!--</option>-->
-                        <!--                                        --><?php //endforeach; ?>
-                        <!--                                    --><?php //endif; ?>
-                        <!--                                </select>-->
-                        <!--                            </div>-->
-                        <!--                        </div>-->
-
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="trace_status"><?= $this->Dictionary->GetKeyword('Action Type'); ?> *</label>
-                                <select name="import_trace_action_type_id" id="trace_action_type" class="form-control" required>
-                                    <option value=""><?= $this->Dictionary->GetKeyword('Select Action Type'); ?></option>
-                                    <?php if (isset($trace_action_types)): ?>
-                                        <?php foreach ($trace_action_types as $action_type): ?>
-                                            <option value="<?= $action_type['id']; ?>"><?= $this->Dictionary->GetKeyword($action_type['name']); ?></option>
-                                        <?php endforeach; ?>
-                                    <?php endif; ?>
-                                </select>
-                            </div>
-                        </div>
-
-
-                    </div>
-
-                    <div class="row">
-
-
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="sender_user"><?= $this->Dictionary->GetKeyword('Sender User'); ?></label>
-                                <select name="import_trace_sender_user_id" id="sender_user_id" class="form-control select2-users" disabled>
-                                    <option value=""><?= $this->Dictionary->GetKeyword('Select User'); ?></option>
-                                    <?php if (isset($active_users)): ?>
-                                        <?php foreach ($active_users as $user): ?>
-                                            <option value="<?= $user['id']; ?>"><?= $user['name']; ?></option>
-                                        <?php endforeach; ?>
-                                    <?php endif; ?>
-                                </select>
-                                <small class="text-muted"><?= $this->Dictionary->GetKeyword('If left empty, current user will be used'); ?></small>
-                            </div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="sender_department"><?= $this->Dictionary->GetKeyword('Sender Department'); ?> *</label>
-                                <div class="input-group">
-                                    <input type="text" name="sender_department" id="sender_department" class="form-control" readonly required>
-                                    <input type="hidden" name="import_trace_sender_department_id" id="sender_department_id">
-                                    <span class="input-group-btn">
-                                        <button class="btn btn-default" type="button" onclick="OpenTree('department','sender_department','sender_department_id','1')"><i class="fa fa-search"></i></button>
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-
-
-
-
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="receiver_user"><?= $this->Dictionary->GetKeyword('Receiver User'); ?></label>
-                                <select name="import_trace_receiver_user_id" id="receiver_user_id" class="form-control select2-users"disabled>
-                                    <option value=""><?= $this->Dictionary->GetKeyword('Select User'); ?></option>
-                                    <?php if (isset($active_users)): ?>
-                                        <?php foreach ($active_users as $user): ?>
-                                            <option value="<?= $user['id']; ?>"><?= $user['name']; ?></option>
-                                        <?php endforeach; ?>
-                                    <?php endif; ?>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="receiver_department"><?= $this->Dictionary->GetKeyword('Receiver Department'); ?> *</label>
-                                <div class="input-group">
-                                    <input type="text" name="receiver_department" id="receiver_department" class="form-control" readonly required>
-                                    <input type="hidden" name="import_trace_receiver_department_id" id="receiver_department_id">
-                                    <span class="input-group-btn">
-                                        <button class="btn btn-default" type="button" onclick="OpenTree('department','receiver_department','receiver_department_id','1','extra-section', 1)"><i class="fa fa-search"></i></button>
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label for="trace_sent_date"><?= $this->Dictionary->GetKeyword('Sent Date'); ?></label>
-                                <input type="date" name="import_trace_sent_date" id="trace_sent_date" class="form-control">
-                            </div>
-                        </div>
-                        <!--                        <div class="col-md-6">-->
-                        <!--                            <div class="form-group">-->
-                        <!--                                <label for="trace_received_date">--><?php //= $this->Dictionary->GetKeyword('Received Date'); ?><!--</label>-->
-                        <!--                                <input type="date" name="import_trace_received_date" id="trace_received_date" class="form-control">-->
-                        <!--                            </div>-->
-                        <!--                        </div>-->
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label for="trace_note"><?= $this->Dictionary->GetKeyword('Note'); ?></label>
-                                <textarea name="import_trace_note" id="trace_note" class="form-control" rows="4"></textarea>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label for="attachments"><?= $this->Dictionary->GetKeyword('Attachments'); ?></label>
-                                <input type="file" name="attachments[]" id="attachments" class="form-control" multiple>
-                                <small class="text-muted"><?= $this->Dictionary->GetKeyword('You can select multiple files.'); ?></small>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal"><?= $this->Dictionary->GetKeyword('Close'); ?></button>
-                    <button type="submit" class="btn btn-primary"><?= $this->Dictionary->GetKeyword('Save'); ?></button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
 
 
 <!-- Add Special Form Modal -->
@@ -1037,10 +880,217 @@
     </div>
 </div>
 
+
+<!-- Add Trace Modal For Sent-->
+<div class="modal fade" id="addTraceModalSent" tabindex="-1" role="dialog" aria-labelledby="addTraceModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <form id="addTraceFormSent" action="<?= base_url('Import/AddTrace'); ?>" method="post" enctype="multipart/form-data" >
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="addTraceModalLabel"><?= $this->Dictionary->GetKeyword('Add New Trace'); ?></h4>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" name="import_id" value="<?= $import['import_id']; ?>">
+                    <input type="hidden" name="import_trace_type_id" value="">
+                    <input type="hidden" name="import_trace_status_id" value="">
+
+
+                    <div class="just_for_sent_status">
+
+                        <div class="row">
+
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="trace_status"><?= $this->Dictionary->GetKeyword('Action Type'); ?> *</label>
+                                    <select name="import_trace_action_type_id" id="trace_action_type" class="form-control" required>
+                                        <option value=""><?= $this->Dictionary->GetKeyword('Select Action Type'); ?></option>
+                                        <?php if (isset($trace_action_types)): ?>
+                                            <?php foreach ($trace_action_types as $action_type): ?>
+                                                <option value="<?= $action_type['id']; ?>"><?= $action_type['name']; ?></option>
+                                            <?php endforeach; ?>
+                                        <?php endif; ?>
+                                    </select>
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                        <div class="row">
+
+
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="receiver_user"><?= $this->Dictionary->GetKeyword('Receiver User'); ?></label>
+                                    <select name="import_trace_receiver_user_id" id="receiver_user_id" class="form-control select2-users" required>
+                                        <option value=""><?= $this->Dictionary->GetKeyword('Select User'); ?></option>
+                                        <!--                                        --><?php //if (isset($active_users)): ?>
+                                        <!--                                            --><?php //foreach ($active_users as $user): ?>
+                                        <!--                                                <option value="--><?php //= $user['id']; ?><!--">--><?php //= $user['name']; ?><!--</option>-->
+                                        <!--                                            --><?php //endforeach; ?>
+                                        <!--                                        --><?php //endif; ?>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="receiver_department"><?= $this->Dictionary->GetKeyword('Receiver Department'); ?> *</label>
+                                    <div class="input-group">
+                                        <input type="text" name="receiver_department" id="receiver_department" class="form-control"  readonly required>
+                                        <input type="hidden" name="import_trace_receiver_department_id" id="receiver_department_id">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default" type="button" onclick="OpenTree('department','receiver_department','receiver_department_id','1', 'extra-section', 1)"><i class="fa fa-search"></i></button>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="trace_note"><?= $this->Dictionary->GetKeyword('Note'); ?></label>
+                                <textarea name="import_trace_note" id="trace_note" class="form-control" rows="4"></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="attachments"><?= $this->Dictionary->GetKeyword('Attachments'); ?></label>
+                                <input type="file" name="attachments[]" id="attachments" class="form-control" multiple>
+                                <small class="text-muted"><?= $this->Dictionary->GetKeyword('You can select multiple files.'); ?></small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal"><?= $this->Dictionary->GetKeyword('Close'); ?></button>
+                    <button type="submit" class="btn btn-primary"><?= $this->Dictionary->GetKeyword('Save'); ?></button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
 <script>
     $(document).ready(function() {
 
+        $('.btn-self-trace-sent').on('click', function() {
 
+            var dataType = $(this).data('type');
+            $('input[name="import_trace_type_id"]').val(dataType);
+
+        });
+
+        $('#addTraceFormSent').on('submit', function(e) {
+            e.preventDefault();
+
+            $('.overlay').css('display', 'flex'); // Show the overlay
+
+            var formData = new FormData(this);
+
+            console.log('formData', formData);
+            $.ajax({
+                url: $(this).attr('action'),
+                type: $(this).attr('method'),
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    // $('#addTraceModal').modal('hide');
+                    // $('.overlay').hide(); // Hide the overlay after success
+                    // location.reload();
+
+                    $('.form-error').remove();
+                    $('.is-invalid').removeClass('is-invalid');
+
+                    if(response.status !== "true") {
+                        if (response.errors) {
+                            for (const [field, message] of Object.entries(response.errors)) {
+                                const input = $(`[name="${field}"]`);
+
+                                input.addClass('is-invalid'); // Optional, if you're using Bootstrap
+
+                                // Add error message right below the input
+                                input.after(`<div class="form-error text-danger small">${message}</div>`);
+                            }
+                        } else {
+
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: response.message || 'An error occurred while adding the trace.',
+                                confirmButtonText: 'OK'
+                            });
+                        }
+
+                        $('.overlay').hide(); // Hide overlay after error
+                        return;
+                    }else{
+                        $('.overlay').hide(); // Hide the overlay after success
+                        $('#addTraceModal').modal('hide');
+                        location.reload();
+                    }
+
+
+
+                },
+                // error: function(xhr, status, error) {
+                //     $('.overlay').hide(); // Hide the overlay after success
+                //     alert('An error occurred: ' + error);
+                // }
+
+                error: function(xhr, status, error) {
+                    // Handle error (e.g., show an error message)
+                    try {
+                        const response = JSON.parse(xhr.responseText); // Parse the server response
+
+                        if (response.errors) {
+                            // Handle validation errors
+                            let errorMessages = '';
+                            for (const [field, message] of Object.entries(response.errors)) {
+                                errorMessages += `${field}: ${message}\n`;
+                            }
+
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Validation Errors',
+                                text: errorMessages,
+                                confirmButtonText: 'OK'
+                            });
+                        } else {
+                            // Handle general error message
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: response.message || 'An error occurred while adding the trace.',
+                                confirmButtonText: 'OK'
+                            });
+                        }
+                    } catch (e) {
+                        console.log('Error parsing JSON response:', e);
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error',
+                            text: 'Invalid server response.',
+                            confirmButtonText: 'OK'
+                        });
+                    }
+                    $('.overlay').hide(); // Hide the overlay after success
+
+                }
+
+
+            });
+        });
 
 
         $('#receiver_department_id').on('change', function() {

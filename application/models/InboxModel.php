@@ -25,16 +25,21 @@ class InboxModel extends CI_Model {
         `import`.import_received_date,
         `import_trace`.`import_trace_sent_date`,
         `import_trace`.`import_trace_id`,
+         d1.name AS last_trace_sender_department,
+         u1.NAME AS last_trace_sender_user,
         `import_trace_type`.`import_trace_type_name`,
         `import_trace_type`.`import_trace_type_icon`,
         `import_trace_status`.`import_trace_status_name`,
         `import_trace_status`.`import_trace_status_icon`,
         IF(`import_trace`.`import_trace_status_id` = 1, 0, 1) as `import_trace_is_read`
+        
         FROM
         `import`
         INNER JOIN department ON department.id = `import`.import_from_department_id
         JOIN import_trace on import_trace.import_trace_import_id = `import`.import_id
 				 and import_trace.import_trace_status_id != 3
+				  LEFT JOIN department d1 ON d1.id = import_trace.import_trace_sender_department_id
+				  LEFT JOIN user u1 ON u1.USER_ID = import_trace.import_trace_sender_user_id
         LEFT JOIN import_trace_type ON import_trace_type.import_trace_type_id = import_trace.import_trace_import_trace_type_id
         LEFT JOIN import_trace_status ON import_trace_status.import_trace_status_id = import_trace.import_trace_status_id
         WHERE  `import`.is_deleted != 1  $filter 
@@ -53,6 +58,38 @@ class InboxModel extends CI_Model {
         }
     }
 
+
+    public function GetInboxFilteredCodeNotFoundInTheList($filter)
+    {
+
+
+        $sql = "SELECT
+        `import`.import_id,
+        `import_trace_type`.`import_trace_type_name`,
+        `import_trace`.`import_trace_import_trace_type_id`,
+        `import_trace`.`import_trace_receiver_department_id`,
+        `import_trace`.`import_trace_sender_department_id`
+        
+        FROM
+        `import`
+        INNER JOIN department ON department.id = `import`.import_from_department_id
+        JOIN import_trace on import_trace.import_trace_import_id = `import`.import_id
+				 and import_trace.import_trace_status_id != 3
+				  LEFT JOIN department d1 ON d1.id = import_trace.import_trace_sender_department_id
+				  LEFT JOIN user u1 ON u1.USER_ID = import_trace.import_trace_sender_user_id
+        LEFT JOIN import_trace_type ON import_trace_type.import_trace_type_id = import_trace.import_trace_import_trace_type_id
+        LEFT JOIN import_trace_status ON import_trace_status.import_trace_status_id = import_trace.import_trace_status_id
+        WHERE  `import`.is_deleted != 1  $filter ";
+
+
+        $data = $this->Get_info->select_query($sql);
+
+        if ($data) {
+            return $data[0];
+        } else {
+            return [];
+        }
+    }
     /**
      * Get count of unread inbox items
      *
@@ -166,6 +203,7 @@ class InboxModel extends CI_Model {
                     JOIN import_trace ON import_trace.import_trace_import_id = `import`.import_id and import_trace.import_trace_status_id != 3
                      join import_trace_type on import_trace.import_trace_import_trace_type_id = import_trace_type.import_trace_type_id
                     WHERE 1=1 
+                     and `import`.is_deleted != 1
                     AND (
                     (import_trace_type.import_trace_type_id = 1 AND import_trace.import_trace_sender_department_id = '$user_department_id')
                     OR 
@@ -203,6 +241,7 @@ class InboxModel extends CI_Model {
                     JOIN import_trace ON import_trace.import_trace_import_id = `import`.import_id and import_trace.import_trace_status_id != 3
                      join import_trace_type on import_trace.import_trace_import_trace_type_id = import_trace_type.import_trace_type_id
                     WHERE 1=1 
+                     and `import`.is_deleted != 1
                     and import_trace_type.import_trace_type_id not in (3,4)
                     AND (
                     (import_trace_type.import_trace_type_id = 1 AND import_trace.import_trace_sender_department_id = '$user_department_id')
@@ -238,6 +277,7 @@ class InboxModel extends CI_Model {
                   JOIN import_trace on import_trace.import_trace_import_id = `import`.import_id and import_trace.import_trace_status_id != 3
                 WHERE
                     1 = 1 
+                    and `import`.is_deleted != 1
                     AND import_trace.import_trace_status_id != 3 
                     AND `import_trace`.`import_trace_import_trace_type_id` = 1 
                     AND `import_trace`.`import_trace_receiver_department_id` = '$user_department_id' ";
