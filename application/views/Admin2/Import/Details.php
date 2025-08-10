@@ -728,7 +728,11 @@
 
                                 <div class="pull-right">
 
-                                    <?php if($this->Permission->CheckPermissionOperation('import_addtrace')): ?>
+                                    <?php if(
+                                        $this->Permission->CheckPermissionOperation('import_addtrace')
+                                        && $this->Permission->CheckPermissionOperation('send_trace_from_details')
+                                        && $last_trace['import_trace_type_id']  != 4 // do not show actions for out trace
+                                    ): ?>
                                         <button type="button" class="btn btn-sm btn-success btn-self-trace-sent"  data-toggle="modal" data-target="#addTraceModalSent" data-type="1" data-status="1">
                                             <i class="fa fa-mail-forward"></i> <?= $this->Dictionary->GetKeyword('Sent To Action'); ?>
                                         </button>
