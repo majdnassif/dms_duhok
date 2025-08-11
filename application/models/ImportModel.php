@@ -49,7 +49,7 @@ class ImportModel extends CI_Model {
         LEFT JOIN book_category bc ON bc.book_category_id = import.import_book_category_id
         LEFT JOIN book_language bl ON bl.book_language_id = import.import_book_language_id
         LEFT JOIN user u ON u.USER_ID = import.import_created_by
-         JOIN import_trace  ON import_trace.import_trace_import_id = `import`.import_id   and import_trace.import_trace_status_id != 3
+         left JOIN import_trace  ON import_trace.import_trace_import_id = `import`.import_id   and import_trace.import_trace_status_id != 3
 
         WHERE 1=1 $filter 
         $order";

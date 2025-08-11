@@ -290,8 +290,13 @@ class ImportTraceModel extends CI_Model {
                 join import_trace_type on import_trace.import_trace_import_trace_type_id = import_trace_type.import_trace_type_id
                 join import_trace_status on import_trace.import_trace_status_id = import_trace_status.import_trace_status_id
                 left join import_trace_action_types on import_trace.import_trace_action_type_id = import_trace_action_types.id
-                WHERE import_trace.import_trace_status_id != 3
-                    and import_trace_import_id = ? ";
+                WHERE
+                    -- import_trace.import_trace_status_id != 3
+                    -- and 
+                    import_trace_import_id = ? 
+                    order by import_trace.import_trace_id desc
+                    limit 1
+                    ";
         $result = $this->db->query($sql, [$import_id])->row_array();
 
         if ($result) {
