@@ -2,7 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 class ImportTraceModel extends CI_Model {
-    
+
     public function __construct() {
         $this->load->database();
     }
@@ -52,7 +52,7 @@ class ImportTraceModel extends CI_Model {
                     it.import_trace_id DESC";
 
         $data = $this->db->query($sql, [$import_id])->result_array();
-        
+
         if ($data) {
             foreach ($data as &$trace) {
                 // Convert attachment JSON to array if exists
@@ -91,9 +91,9 @@ class ImportTraceModel extends CI_Model {
         left JOIN import_trace_action_types ita ON ita.id = it.import_trace_action_type_id
         WHERE
             it.import_trace_id = ?";
-        
+
         $data = $this->db->query($sql, [$trace_id])->row_array();
-        
+
         if ($data) {
             // Convert attachment JSON to array if exists
             if (isset($data['import_trace_attachment']) && !empty($data['import_trace_attachment'])) {
@@ -106,7 +106,7 @@ class ImportTraceModel extends CI_Model {
             return null;
         }
     }
-    
+
     public function GetTraceTypes()
     {
         $sql = "SELECT * FROM import_trace_type ORDER BY import_trace_type_id";
@@ -118,7 +118,7 @@ class ImportTraceModel extends CI_Model {
         $sql = "SELECT * FROM import_trace_action_types ORDER BY id";
         return $this->db->query($sql)->result_array();
     }
-    
+
     public function GetTraceStatuses()
     {
         $sql = "SELECT * FROM import_trace_status ORDER BY import_trace_status_id";
@@ -131,35 +131,35 @@ class ImportTraceModel extends CI_Model {
 
         try {
             // close previous trace if it exists
-          if( $this->ClosePreviousTrace($data['import_trace_import_id']) ){
-              // Handle attachments
-              if (isset($data['import_trace_attachment']) && is_array($data['import_trace_attachment'])) {
-                  $data['import_trace_attachment'] = json_encode($data['import_trace_attachment']);
-              }
+            if( $this->ClosePreviousTrace($data['import_trace_import_id']) ){
+                // Handle attachments
+                if (isset($data['import_trace_attachment']) && is_array($data['import_trace_attachment'])) {
+                    $data['import_trace_attachment'] = json_encode($data['import_trace_attachment']);
+                }
 
-              // Set sender user ID (current user)
-              if (!isset($data['import_trace_sender_user_id']) || empty($data['import_trace_sender_user_id'])) {
-                  $data['import_trace_sender_user_id'] = $this->UserModel->user_id();
-              }
+                // Set sender user ID (current user)
+                if (!isset($data['import_trace_sender_user_id']) || empty($data['import_trace_sender_user_id'])) {
+                    $data['import_trace_sender_user_id'] = $this->UserModel->user_id();
+                }
 
 
-             // $this->db->insert('import_trace', $data);
-              if (!$this->db->insert('import_trace', $data)) {
-                  throw new Exception('Insert failed: ' . $this->db->last_query());
-              }
-              $insert_id = $this->db->insert_id();
+                // $this->db->insert('import_trace', $data);
+                if (!$this->db->insert('import_trace', $data)) {
+                    throw new Exception('Insert failed: ' . $this->db->last_query());
+                }
+                $insert_id = $this->db->insert_id();
 
-              if ($this->db->trans_status() === FALSE) {
-                  $this->db->trans_rollback();
-                  throw new Exception('Transaction failed');
-              }
-              $this->db->trans_commit();
+                if ($this->db->trans_status() === FALSE) {
+                    $this->db->trans_rollback();
+                    throw new Exception('Transaction failed');
+                }
+                $this->db->trans_commit();
 
-             // $this->UserModel->AddUserLog('import_trace', 'add', $insert_id);
-              return $insert_id;
-          }else{
-              throw new Exception('Close previous trace failed');
-          }
+                // $this->UserModel->AddUserLog('import_trace', 'add', $insert_id);
+                return $insert_id;
+            }else{
+                throw new Exception('Close previous trace failed');
+            }
 
         } catch (Exception $e) {
             // Rollback the transaction explicitly in case of an exception
@@ -176,27 +176,27 @@ class ImportTraceModel extends CI_Model {
 
         try {
 
-                if (isset($data['import_trace_attachment']) && is_array($data['import_trace_attachment'])) {
-                    $data['import_trace_attachment'] = json_encode($data['import_trace_attachment']);
-                }
+            if (isset($data['import_trace_attachment']) && is_array($data['import_trace_attachment'])) {
+                $data['import_trace_attachment'] = json_encode($data['import_trace_attachment']);
+            }
 
-                // Set sender user ID (current user)
-                if (!isset($data['import_trace_sender_user_id']) || empty($data['import_trace_sender_user_id'])) {
-                    $data['import_trace_sender_user_id'] = $this->UserModel->user_id();
-                }
+            // Set sender user ID (current user)
+            if (!isset($data['import_trace_sender_user_id']) || empty($data['import_trace_sender_user_id'])) {
+                $data['import_trace_sender_user_id'] = $this->UserModel->user_id();
+            }
 
-                $this->db->insert('import_trace', $data);
-                $insert_id = $this->db->insert_id();
+            $this->db->insert('import_trace', $data);
+            $insert_id = $this->db->insert_id();
 
-                // Complete the transaction
-                $this->db->trans_commit();
+            // Complete the transaction
+            $this->db->trans_commit();
 
-                // Check if the transaction was successful
-                if ($this->db->trans_status() === FALSE) {
-                    throw new Exception('Transaction failed');
-                }
-                $this->UserModel->AddUserLog('import_trace', 'add', $insert_id);
-                return $insert_id;
+            // Check if the transaction was successful
+            if ($this->db->trans_status() === FALSE) {
+                throw new Exception('Transaction failed');
+            }
+            $this->UserModel->AddUserLog('import_trace', 'add', $insert_id);
+            return $insert_id;
 
 
         } catch (Exception $e) {
@@ -219,7 +219,7 @@ class ImportTraceModel extends CI_Model {
             $this->db->where('import_trace_id', $lastTrace['import_trace_id']);
             $update =  $this->db->update('import_trace', $data);
             if ($update) {
-               // $this->UserModel->AddUserLog('import_trace', 'update', $lastTrace['import_trace_id']);
+                // $this->UserModel->AddUserLog('import_trace', 'update', $lastTrace['import_trace_id']);
                 return true;
             } else {
                 return false;
@@ -235,10 +235,10 @@ class ImportTraceModel extends CI_Model {
         if (isset($data['import_trace_attachment']) && is_array($data['import_trace_attachment'])) {
             $data['import_trace_attachment'] = json_encode($data['import_trace_attachment']);
         }
-        
+
         $this->db->where('import_trace_id', $trace_id);
         $update = $this->db->update('import_trace', $data);
-        
+
         if ($update) {
             $this->UserModel->AddUserLog('import_trace', 'update', $trace_id);
             return true;
@@ -246,12 +246,12 @@ class ImportTraceModel extends CI_Model {
             return false;
         }
     }
-    
+
     public function DeleteTrace($trace_id)
     {
         $this->db->where('import_trace_id', $trace_id);
         $delete = $this->db->delete('import_trace');
-        
+
         if ($delete) {
             $this->UserModel->AddUserLog('import_trace', 'delete', $trace_id);
             return true;
@@ -282,6 +282,7 @@ class ImportTraceModel extends CI_Model {
 			    import_trace.import_trace_receiver_user_id,
 				import_trace.import_trace_status_id,
 				import_trace.import_trace_close_date,
+				import_trace.import_trace_receiver_department_id,
                 import_trace_type.*,
                 import_trace_status.*,
                 import_trace_action_types.name AS action_type_name

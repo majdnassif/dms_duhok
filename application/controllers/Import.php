@@ -791,6 +791,13 @@ class Import extends CI_Controller
 
         $data['last_trace'] = $this->ImportTraceModel->GetLastImportLastTrace($import_id);
 
+        $data['isLastTraceTypeReceived'] = false;
+        if ($data['last_trace']) {
+            $user_department_id = $this->UserModel->user_department_id();
+            $data['isLastTraceTypeReceived'] = ($data['last_trace']['import_trace_type_id'] == 1 && $data['last_trace']['import_trace_receiver_department_id'] == $user_department_id);
+
+        }
+
         $this->_temp_output('Import/Details', $data);
     }
 
