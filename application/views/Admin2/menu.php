@@ -102,7 +102,7 @@
                     foreach (RemoteConnectionMapperHelper::all() as $branch_id => $location_info) : ?>
                         <li class="load_overlay <?php if ($class === 'Out' && $method === 'ajax_remote_list') { echo 'active'; } ?>">
                             <a href="<?= base_url('Out/RemoteList/'). $branch_id; ?>">
-                                <?= $this->Dictionary->GetKeyword('Imports') . ' '.$this->Dictionary->GetKeyword($location_info['name']) ; ?>
+                                <?= $this->Dictionary->GetKeyword('Imports' . ' ' .$location_info['name']) ; ?>
                             </a>
                         </li>
                     <?php endforeach;

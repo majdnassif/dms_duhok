@@ -734,12 +734,10 @@
                                         && $last_trace['import_trace_type_id']  != 4 // do not show actions for out trace
                                     ): ?>
 
-                                        <?php if($last_trace['import_trace_type_id'] != 1 || ($last_trace['import_trace_type_id'] == 1 && $isLastTraceTypeReceived) ) // do not show actions for sent trace
-                                            :?>
+
                                             <button type="button" class="btn btn-sm btn-success btn-self-trace-sent"  data-toggle="modal" data-target="#addTraceModalSent" data-type="1" data-status="1">
                                                 <i class="fa fa-mail-forward"></i> <?= $this->Dictionary->GetKeyword('Sent To Action'); ?>
                                             </button>
-                                        <?php endif; ?>
 
                                     <?php endif; ?>
                                 </div>
