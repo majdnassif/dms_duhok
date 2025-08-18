@@ -1017,7 +1017,7 @@ class Import extends CI_Controller
     {
         $import_id = $this->input->post('import_id');
 
-        $import = $this->ImportModel->GetImportDetails($import_id);
+        $import = $this->ImportModel->GetImportDetails($import_id, false);
 
         if (!$import) {
             echo json_encode(['status' => 'error', 'message' => 'Import document not found']);
@@ -1385,7 +1385,7 @@ class Import extends CI_Controller
             $out_data = [
                 'out_book_code' => date('y').  date('m') ,
                 'out_book_number' => $this->input->post('out_book_number'),
-                'out_book_issue_date' => $this->input->post('out_book_issue_date'),
+                'out_book_issue_date' => $this->input->post('out_book_issue_date') ? $this->input->post('out_book_issue_date') : null,
                 'out_book_subject' => $this->input->post('out_book_subject'),
                 'out_to_department_id' => $this->input->post('out_to_department_id'),
                 'out_from_department_id' => $this->input->post('out_from_department_id'),
@@ -1500,7 +1500,7 @@ class Import extends CI_Controller
                             'import_trace_sender_department_id' => $this->UserModel->user_department_id(),
 
                             'import_trace_receiver_user_id' =>  $this->UserModel->user_id(),
-                            // 'out_id' => $out_id,
+                            'out_id' => $out_id,
                         ];
 
 

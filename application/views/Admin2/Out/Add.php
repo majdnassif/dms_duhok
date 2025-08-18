@@ -145,9 +145,9 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="control-label col-md-4"><?= $this->Dictionary->GetKeyword('Book Issue Date'); ?></label>
+                            <label class="control-label col-md-4"><?= $this->Dictionary->GetKeyword('Book Issue Date'); ?>*</label>
                             <div class="col-md-8">
-                                <input type="date" name="out_book_issue_date" class="form-control">
+                                <input type="date" name="out_book_issue_date" class="form-control" required>
                             </div>
                         </div>
 

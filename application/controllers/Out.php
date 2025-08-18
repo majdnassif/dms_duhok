@@ -403,7 +403,7 @@ class Out extends CI_Controller
                 $out_data = [
                     'out_book_code' => date('y').  date('m') , // $this->input->post('out_book_code'),
                     'out_book_number' => $this->input->post('out_book_number'),
-                    'out_book_issue_date' => $this->input->post('out_book_issue_date'),
+                    'out_book_issue_date' => $this->input->post('out_book_issue_date') ? $this->input->post('out_book_issue_date') : null,
                     'out_book_subject' => $this->input->post('out_book_subject'),
                     'out_to_department_id' => $this->input->post('out_to_department_id'),
                     'out_from_department_id' => $this->input->post('out_from_department_id'),
@@ -812,7 +812,7 @@ class Out extends CI_Controller
     {
         $out_id = $this->input->post('out_id');
 
-        $out = $this->OutModel->GetOutDetails($out_id);
+        $out = $this->OutModel->GetOutDetails($out_id, false);
 
         if (!$out) {
             echo json_encode(['status' => 'error', 'message' => 'Out document not found']);

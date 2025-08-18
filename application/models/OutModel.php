@@ -70,7 +70,7 @@ class OutModel extends CI_Model {
 
         $branches_id = $this->getBranchIdsToBeAllowedToGetOutRemote();
 
-        $filter .= " AND elec_dep_reference IN (" . implode(',', $branches_id) . ") ";
+        $filter .= " AND elec_dep_reference IN (" . implode(',', $branches_id) . ") and out_is_deleted != 1";
 
 
 

@@ -1957,8 +1957,8 @@
                             </div>
 
                             <div class="form-group">
-                                <label class="control-label"><?= $this->Dictionary->GetKeyword('Book Issue Date'); ?></label>
-                                <input type="date" name="out_book_issue_date" class="form-control">
+                                <label class="control-label"><?= $this->Dictionary->GetKeyword('Book Issue Date'); ?>*</label>
+                                <input type="date" name="out_book_issue_date" class="form-control" required>
                             </div>
 
 
