@@ -519,6 +519,14 @@ class Out extends CI_Controller
                                 }
                             }
 
+                            $this->db->trans_commit();
+
+                            // Check if the transaction was successful
+                            if ($this->db->trans_status() === FALSE) {
+                                throw new Exception('Transaction failed');
+                            }
+
+
                             return $this->output
                                 ->set_content_type('application/json')
                                 ->set_output(json_encode([

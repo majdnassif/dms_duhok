@@ -142,7 +142,13 @@ class ImportModel extends CI_Model {
 
 
         $this->db->insert('import', $data);
-        $insert_id = $this->db->insert_id();
+        //$insert_id = $this->db->insert_id();
+
+        $auth_user_id = $this->UserModel->user_id();
+        $sql = "select max(import_id) as id from `import` where import_created_by =  $auth_user_id";
+        $result = $this->db->query($sql)->row_array();
+
+        $insert_id = isset($result['id']) ? $result['id'] : null;
 
         if ($insert_id) {
             $this->UserModel->AddUserLog('import', 'add', $insert_id);

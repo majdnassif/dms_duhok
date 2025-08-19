@@ -377,7 +377,16 @@ class OutModel extends CI_Model {
         }
 
         $this->db->insert('out', $data);
-        $insert_id = $this->db->insert_id();
+        //$insert_id = $this->db->insert_id();
+
+
+        $auth_user_id = $this->UserModel->user_id();
+        $sql = "select max(id) as id from `out` where out_created_by =  $auth_user_id";
+        $result = $this->db->query($sql)->row_array();
+
+        $insert_id = isset($result['id']) ? $result['id'] : null;
+
+
 
         if ($insert_id) {
             $this->UserModel->AddUserLog('out', 'add', $insert_id);
