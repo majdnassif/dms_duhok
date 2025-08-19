@@ -49,7 +49,7 @@ class Import extends CI_Controller
         $filters['import_book_subject'] = ['type'=>'text', 'name'=>'import_book_subject', 'id'=>'filter_import_book_subject', 'label'=>'Subject'];
         $filters['import_code'] = ['type'=>'text', 'name'=>'import_code', 'id'=>'filter_import_code', 'label'=>'Code'];
 
-        $filters['import_to_department'] = ['type'=>'tree', 'name'=>'import_to_department', 'id'=>'filter_import_to_department', 'label'=>'To Department', 'onclick'=>"OpenTree('department','filter_import_to_department','filter_import_to_department_id','1')"];
+        $filters['import_to_department'] = ['type'=>'tree', 'name'=>'import_to_department', 'id'=>'filter_import_to_department', 'label'=>'To Department', 'onclick'=>"OpenTree('department','filter_import_to_department','filter_import_to_department_id','1', 'extra-section', 1)"];
         $filters['import_to_department_id'] = ['type'=>'hidden', 'name'=>'import_to_department_id', 'id'=>'filter_import_to_department_id', 'label'=>'import_to_department_id', 'value'=>''];
 
 //        $filters['import_is_direct'] = ['type'=>'custom_html' , 'content'=>'
@@ -93,7 +93,6 @@ class Import extends CI_Controller
 
         $filters['import_body'] = ['type'=>'text', 'name'=>'import_body', 'id'=>'filter_import_body', 'label'=>'Body'];
 
-        $filters['out_number'] = ['type'=>'text', 'name'=>'out_number', 'id'=>'filter_out_number', 'label'=>'Out Number'];
 
 
         $sql_signed_by = "select import_signed_by as id, import_signed_by as name from (
@@ -103,7 +102,9 @@ class Import extends CI_Controller
         //  var_dump($assigned_by_list);
         $filters['import_signed_by'] = ['type'=>'select', 'name'=>'import_signed_by', 'id'=>'filter_import_signed_by', 'label'=>'Signed', 'list'=> $assigned_by_list, 'list_name' => 'name', 'list_id' =>'id', 'translate' => false];
 
+        $filters['out_number'] = ['type'=>'text', 'name'=>'out_number', 'id'=>'filter_out_number', 'label'=>'Out Number'];
 
+        $filters['answer_out_number'] = ['type'=>'text', 'name'=>'answer_out_number', 'id'=>'filter_answer_out_number', 'label'=>'Answer Out Number'];
 
 
         $filters['import_book_date'] = ['type'=>'custom_html' , 'content'=>'
@@ -406,7 +407,7 @@ class Import extends CI_Controller
         $import_register_date_today = $this->input->post('import_register_date_today');
         if ($import_register_date_today && $import_register_date_today != "false" ) {
             $today = date('Y-m-d');
-            $filter .= " AND `import_created_at` = '" . $today . "'";
+            $filter .= " AND date(`import_created_at`) = '" . $today . "'";
         }
 
 
@@ -432,13 +433,32 @@ class Import extends CI_Controller
         $out_number = $this->input->post("out_number");
         if ($out_number && $out_number != "") {
             $out_sql = "SELECT import_id FROM `out`
-                        where out_book_number = $out_number";
+                        where out_book_number = $out_number
+                        and import_id IS NOT NULL
+                        ";
             $outs_data = $this->db->query($out_sql)->result_array();
 
             if ($outs_data) {
                 $out_ids = array_column($outs_data, 'import_id');
                 if (!empty($out_ids)) {
                     $filter .= " AND `import_id` IN (" . implode(',', $out_ids) . ")";
+                }
+            }
+
+        }
+
+        $answer_out_number = $this->input->post("answer_out_number");
+        if ($answer_out_number && $answer_out_number != "") {
+            $out_sql = "SELECT import_id FROM `import_answers`
+                        where out_book_number = $answer_out_number
+                        and import_id IS NOT NULL
+                        ";
+            $answers_outs_data = $this->db->query($out_sql)->result_array();
+
+            if ($answers_outs_data) {
+                $answers_import_ids = array_column($answers_outs_data, 'import_id');
+                if (!empty($answers_import_ids)) {
+                    $filter .= " AND `import_id` IN (" . implode(',', $answers_import_ids) . ")";
                 }
             }
 
@@ -792,11 +812,21 @@ class Import extends CI_Controller
         $data['last_trace'] = $this->ImportTraceModel->GetLastImportLastTrace($import_id);
 
         $data['isLastTraceTypeReceived'] = false;
+        $data['isLastTraceTypeOut'] = false;
+        $data['outOfLastTrace'] = null;
         if ($data['last_trace']) {
             $user_department_id = $this->UserModel->user_department_id();
             $data['isLastTraceTypeReceived'] = ($data['last_trace']['import_trace_type_id'] == 1 && $data['last_trace']['import_trace_receiver_department_id'] == $user_department_id);
+            $data['isLastTraceTypeOut'] = ($data['last_trace']['import_trace_type_id'] == 4  && !empty($data['last_trace']['out_id']));
 
         }
+
+        if($data['isLastTraceTypeOut']){
+            $data['outOfLastTrace'] = $this->OutModel->GetOutDetails($data['last_trace']['out_id']);
+        }
+
+
+
 
         $this->_temp_output('Import/Details', $data);
     }

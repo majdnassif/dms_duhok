@@ -43,7 +43,114 @@ class Out extends CI_Controller
         $filters['out_book_number'] = ['type'=>'text', 'name'=>'out_book_number', 'id'=>'filter_out_book_number', 'label'=>'Book Number'];
         $filters['out_book_subject'] = ['type'=>'text', 'name'=>'out_book_subject', 'id'=>'filter_out_book_subject', 'label'=>'Subject'];
         // $filters['import_from_department'] = ['type'=>'tree', 'name'=>'import_from_department', 'id'=>'filter_import_from_department', 'label'=>'From Department', 'onclick'=>"OpenTree('department','filter_import_from_department','filter_import_from_department_id','1')"];
+
+
+        $filters['out_from_department'] = ['type'=>'tree', 'name'=>'out_from_department', 'id'=>'filter_out_from_department', 'label'=>'From Department', 'onclick'=>"OpenTree('department','filter_out_from_department','filter_out_from_department_id','1', 'extra-section', 1)"];
         $filters['out_from_department_id'] = ['type'=>'hidden', 'name'=>'out_from_department_id', 'id'=>'filter_out_from_department_id', 'label'=>'import_from_department_id', 'value'=>''];
+
+
+        $filters['out_to_department'] = ['type'=>'tree', 'name'=>'out_to_department', 'id'=>'filter_out_to_department', 'label'=>'To Department', 'onclick'=>"OpenTree('department','filter_out_to_department','filter_out_to_department_id','1')"];
+        $filters['out_to_department_id'] = ['type'=>'hidden', 'name'=>'out_to_department_id', 'id'=>'filter_out_to_department_id', 'label'=>'out_to_department_id', 'value'=>''];
+
+
+        $filters['out_body'] = ['type'=>'text', 'name'=>'out_body', 'id'=>'filter_out_body', 'label'=>'Body'];
+
+
+        $filters['import_number'] = ['type'=>'text', 'name'=>'import_number', 'id'=>'filter_import_number', 'label'=>'Import Number'];
+
+        $filters['answer_import_number'] = ['type'=>'text', 'name'=>'answer_import_number', 'id'=>'filter_answer_import_number', 'label'=>'Answer Import Number'];
+
+
+        $sql_signed_by = "select import_signed_by as id, import_signed_by as name from (
+                            SELECT  distinct import_signed_by FROM `import`
+                            ) signed_by_list";
+        $assigned_by_list = $this->db->query($sql_signed_by)->result_array();
+        //  var_dump($assigned_by_list);
+        $filters['out_signed_by'] = ['type'=>'select', 'name'=>'out_signed_by', 'id'=>'filter_out_signed_by', 'label'=>'Signed', 'list'=> $assigned_by_list, 'list_name' => 'name', 'list_id' =>'id', 'translate' => false];
+
+
+
+        $filters['out_book_date'] = ['type'=>'custom_html' , 'content'=>'
+                                           <div class="form-group col-xl-8 col-md-8 col-sm-12 col-xs-12">
+                                          <label></label>
+                                            <div class=" border-top pt-3">
+                                                <div class=" align-items-center" style="display: flex; justify-content: space-around;">
+                                                 <div class="col-2">
+                                                    <label > ' . $this->Dictionary->GetKeyword("Book Date") . '</label>
+                                                  </div>    
+                                                 <div class="col-auto">
+                                                    <label class="custom-label"> ' . $this->Dictionary->GetKeyword("From") . '</label>
+                                                  </div>      
+                                                  <div class="col-auto">
+                                                    <input type="date" id="filter_out_book_date_from" name="out_book_date_from"  class="form-control date-input">
+                                                  </div>
+                                             
+                                                   <div class="col-auto">
+                                                    <label class="custom-label"> ' . $this->Dictionary->GetKeyword("To") . '</label>
+                                                  </div>
+                                                  <div class="col-auto">
+                                                    <input type="date" id="filter_out_book_date_to"  name="out_book_date_to" class="form-control date-input">
+                                                  </div>
+                                                  
+                                                  <div class="col-auto">
+                                                    <label class="custom-label" for="today"> ' . $this->Dictionary->GetKeyword("Today") . '</label>
+                                                    <input class="form-check-input today-checkbox" type="checkbox" id="filter_out_book_date_today" name="out_book_date_today"  >
+                                                  </div>
+                                                
+                                    
+                                                </div>
+                                              </div>
+                                         </div>',
+            'inputs' => [
+                ['id' => 'filter_out_book_date_from', 'name' => 'out_book_date_from'],
+                ['id' => 'filter_out_book_date_to', 'name' => 'out_book_date_to'],
+                ['id' => 'filter_out_book_date_today', 'name' => 'out_book_date_today', 'type' => 'checkbox']
+            ]
+
+        ];
+
+
+
+        $filters['out_created_at'] = ['type'=>'custom_html' , 'content'=>'
+                                           <div class="form-group col-xl-8 col-md-8 col-sm-12 col-xs-12">
+                                          <label></label>
+                                            <div class=" border-top pt-3">
+                                                <div class=" align-items-center" style="display: flex; justify-content: space-around;">
+                                                 <div class="col-auto">
+                                                    <label > ' . $this->Dictionary->GetKeyword("Registration Date") . '</label>
+                                                  </div>
+                                                 <div class="col-auto">
+                                                    <label class="custom-label"> ' . $this->Dictionary->GetKeyword("From") . '</label>
+                                                  </div>
+                                                  <div class="col-auto">
+                                                    <input type="date" id="filter_out_register_date_from" name="import_out_date_from"  class="form-control date-input">
+                                                  </div>
+
+                                                   <div class="col-auto">
+                                                    <label class="custom-label"> ' . $this->Dictionary->GetKeyword("To") . '</label>
+                                                  </div>
+                                                  <div class="col-auto">
+                                                    <input type="date" id="filter_out_register_date_to"  name="import_out_date_to" class="form-control date-input">
+                                                  </div>
+
+                                                  <div class="col-auto">
+                                                    <label class="custom-label" for="today"> ' . $this->Dictionary->GetKeyword("Today") . '</label>
+                                                    <input class="form-check-input today-checkbox" type="checkbox" id="filter_out_register_date_today" name="out_register_date_today"  >
+                                                  </div>
+
+
+                                                </div>
+                                              </div>
+                                         </div>',
+            'inputs' => [
+                ['id' => 'filter_out_register_date_from', 'name' => 'out_register_date_from'],
+                ['id' => 'filter_out_register_date_to', 'name' => 'out_register_date_to'],
+                ['id' => 'filter_out_register_date_today', 'name' => 'out_register_date_today', 'type' => 'checkbox']
+            ]
+
+        ];
+
+
 
 
         $cols[0] = 'out_book_code';
@@ -95,11 +202,92 @@ class Out extends CI_Controller
             $filter .= " AND `out_from_department_id` = '" . $this->db->escape_str($out_from_department) . "'";
         }
 
+        $out_to_department = $this->input->post("out_to_department_id");
+        if ($out_to_department && $out_to_department != "") {
+            $filter .= " AND `out_to_department_id` = '" . $this->db->escape_str($out_to_department) . "'";
+        }
+
         // out_book_subject
         $out_book_subject = $this->input->post("out_book_subject");
         if ($out_book_subject && $out_book_subject != "") {
             $filter .= " AND `out_book_subject` LIKE '%" . $this->db->escape_str($out_book_subject) . "%'";
         }
+
+
+        $out_body = $this->input->post("out_body");
+        if ($out_body && $out_body != "") {
+            $filter .= " AND `out_book_body` LIKE '%" . $this->db->escape_str($out_body) . "%'";
+        }
+
+
+        $import_number = $this->input->post("import_number");
+        if ($import_number && $import_number != "") {
+            $import_sql = "SELECT import_id FROM `import`
+                        where import_book_number = $import_number
+                        ";
+            $imports_data = $this->db->query($import_sql)->result_array();
+
+            if ($imports_data) {
+                $import_ids = array_column($imports_data, 'import_id');
+                if (!empty($import_ids)) {
+                    $filter .= " AND `import_id` IN (" . implode(',', $import_ids) . ")";
+                }
+            }
+
+        }
+
+        $answer_import_number = $this->input->post("answer_import_number");
+        if ($answer_import_number && $answer_import_number != "") {
+            $out_sql = "SELECT out_id FROM `out_answers`
+                        where import_book_number = $answer_import_number
+                        ";
+            $answers_imports_data = $this->db->query($out_sql)->result_array();
+
+            if ($answers_imports_data) {
+                $answers_out_ids = array_column($answers_imports_data, 'out_id');
+                if (!empty($answers_out_ids)) {
+                    $filter .= " AND id IN (" . implode(',', $answers_out_ids) . ")";
+                }
+            }
+
+        }
+
+        $out_signed_by = $this->input->post("out_signed_by");
+        if ($out_signed_by && $out_signed_by != "") {
+            $filter .= " AND `out_signed_by` = '" . $this->db->escape_str($out_signed_by) . "'";
+        }
+
+
+        $out_book_date_from = $this->input->post('out_book_date_from');
+        if ($out_book_date_from && $out_book_date_from != "") {
+            $filter .= " AND `out_book_issue_date` >= '" . $this->db->escape_str($out_book_date_from) . "'";
+        }
+        $out_book_date_to = $this->input->post('out_book_date_to');
+        if ($out_book_date_to && $out_book_date_to != "") {
+            $filter .= " AND `out_book_issue_date` <= '" . $this->db->escape_str($out_book_date_to) . "'";
+        }
+        $out_book_date_today = $this->input->post('out_book_date_today');
+        if ($out_book_date_today && $out_book_date_today != "false" ) {
+            $today = date('Y-m-d');
+            $filter .= " AND date(`out_book_issue_date`) = '" . $today . "'";
+        }
+
+
+
+        $out_register_date_from = $this->input->post('out_register_date_from');
+        if ($out_register_date_from && $out_register_date_from != "") {
+            $filter .= " AND `out_created_at` >= '" . $this->db->escape_str($out_register_date_from) . "'";
+        }
+        $out_register_date_to = $this->input->post('out_register_date_to');
+        if ($out_register_date_to && $out_register_date_to != "") {
+            $filter .= " AND `out_created_at` <= '" . $this->db->escape_str($out_register_date_to) . "'";
+        }
+        $out_register_date_today = $this->input->post('out_register_date_today');
+        if ($out_register_date_today && $out_register_date_today != "false" ) {
+            $today = date('Y-m-d');
+            $filter .= " AND date(`out_created_at`) = '" . $today . "'";
+        }
+
 
         $import_docs = $this->OutModel->GetOutList($filter, $start, $length, $order);
         $import_docs_data = $import_docs['data'];

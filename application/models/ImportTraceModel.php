@@ -283,6 +283,7 @@ class ImportTraceModel extends CI_Model {
 				import_trace.import_trace_status_id,
 				import_trace.import_trace_close_date,
 				import_trace.import_trace_receiver_department_id,
+				import_trace.out_id,
                 import_trace_type.*,
                 import_trace_status.*,
                 import_trace_action_types.name AS action_type_name

@@ -453,144 +453,6 @@
                 <?php endif; ?>
 
 
-
-
-                <!--                <div class="row">-->
-                <!--                    <div class="col-md-6">-->
-                <!--                        <table class="table table-bordered table-striped">-->
-                <!--                            <tr>-->
-                <!--                                <th width="40%">--><?php //= $this->Dictionary->GetKeyword('Import Code'); ?><!--</th>-->
-                <!--                                <td>--><?php //= $import['import_code']; ?><!--</td>-->
-                <!--                            </tr>-->
-                <!--                            <tr>-->
-                <!--                                <th>--><?php //= $this->Dictionary->GetKeyword('Book Number'); ?><!--</th>-->
-                <!--                                <td>--><?php //= $import['import_book_number']; ?><!--</td>-->
-                <!--                            </tr>-->
-                <!--                            <tr>-->
-                <!--                                <th>--><?php //= $this->Dictionary->GetKeyword('Book Date'); ?><!--</th>-->
-                <!--                                <td>--><?php //= $import['import_book_date'] ? date('Y-m-d', strtotime($import['import_book_date'])) : ''; ?><!--</td>-->
-                <!--                            </tr>-->
-                <!--                            <tr>-->
-                <!--                                <th>--><?php //= $this->Dictionary->GetKeyword('Book Subject'); ?><!--</th>-->
-                <!--                                <td>--><?php //= $import['import_book_subject']; ?><!--</td>-->
-                <!--                            </tr>-->
-                <!--                            <tr>-->
-                <!--                                <th>--><?php //= $this->Dictionary->GetKeyword('To Department'); ?><!--</th>-->
-                <!--                                <td>--><?php //= $import['import_to_department']; ?><!--</td>-->
-                <!--                            </tr>-->
-                <!--                            <tr>-->
-                <!--                                <th>--><?php //= $this->Dictionary->GetKeyword('From Department'); ?><!--</th>-->
-                <!--                                <td>--><?php //= $import['import_from_department']; ?><!--</td>-->
-                <!--                            </tr>-->
-                <!--                            <tr>-->
-                <!--                                <th>--><?php //= $this->Dictionary->GetKeyword('Received Date'); ?><!--</th>-->
-                <!--                                <td>--><?php //= $import['import_received_date'] ? date('Y-m-d', strtotime($import['import_received_date'])) : ''; ?><!--</td>-->
-                <!--                            </tr>-->
-                <!--                            <tr>-->
-                <!--                                <th>--><?php //= $this->Dictionary->GetKeyword('Created Date'); ?><!--</th>-->
-                <!--                                <td>--><?php //= $import['import_created_at'] ? date('Y-m-d', strtotime($import['import_created_at'])) : ''; ?><!--</td>-->
-                <!--                            </tr>-->
-                <!---->
-                <!--                            <tr>-->
-                <!--                                <th>--><?php //= $this->Dictionary->GetKeyword('Contact Name'); ?><!--</th>-->
-                <!--                                <td>--><?php //= $import['contact_name'] ?><!--</td>-->
-                <!--                            </tr>-->
-                <!--                        </table>-->
-                <!--                    </div>-->
-                <!--                    -->
-                <!--                    <div class="col-md-6">-->
-                <!--                        <table class="table table-bordered table-striped">-->
-                <!--                            <tr>-->
-                <!--                                <th width="40%">--><?php //= $this->Dictionary->GetKeyword('Incoming Number'); ?><!--</th>-->
-                <!--                                <td>--><?php //= $import['import_incoming_number']; ?><!--</td>-->
-                <!--                            </tr>-->
-                <!--                            <tr>-->
-                <!--                                <th>--><?php //= $this->Dictionary->GetKeyword('Signed By'); ?><!--</th>-->
-                <!--                                <td>--><?php //= $import['import_signed_by']; ?><!--</td>-->
-                <!--                            </tr>-->
-                <!--                            <tr>-->
-                <!--                                <th>--><?php //= $this->Dictionary->GetKeyword('Book Category'); ?><!--</th>-->
-                <!--                                <td>--><?php //= $import['import_book_category'] ?? ''; ?><!--</td>-->
-                <!--                            </tr>-->
-                <!--                            <tr>-->
-                <!--                                <th>--><?php //= $this->Dictionary->GetKeyword('Book Language'); ?><!--</th>-->
-                <!--                                <td>--><?php //= $import['import_book_language'] ?? ''; ?><!--</td>-->
-                <!--                            </tr>-->
-                <!--                            <tr>-->
-                <!--                                <th>--><?php //= $this->Dictionary->GetKeyword('Importance Level'); ?><!--</th>-->
-                <!--                                <td>--><?php //= $import['import_book_importance_level'] ?? ''; ?><!--</td>-->
-                <!--                            </tr>-->
-                <!--                            <tr>-->
-                <!--                                <th>--><?php //= $this->Dictionary->GetKeyword('Is Direct'); ?><!--</th>-->
-                <!--                                <td>--><?php //= $import['import_is_direct'] ? '<span class="label label-success">'.$this->Dictionary->GetKeyword('Yes').'</span>' : '<span class="label label-danger">'.$this->Dictionary->GetKeyword('No').'</span>'; ?><!--</td>-->
-                <!--                            </tr>-->
-                <!--                            <tr>-->
-                <!--                                <th>--><?php //= $this->Dictionary->GetKeyword('Created By'); ?><!--</th>-->
-                <!--                                <td>--><?php //= $import['created_by_name']; ?><!--</td>-->
-                <!--                            </tr>-->
-                <!---->
-                <!--                            <tr>-->
-                <!--                                <th>--><?php //= $this->Dictionary->GetKeyword('Is answer'); ?><!--</th>-->
-                <!--                                <td>--><?php //= $import['import_is_answer'] ? '<span class="label label-success">'.$this->Dictionary->GetKeyword('Yes').'</span>' : '<span class="label label-danger">'.$this->Dictionary->GetKeyword('No').'</span>'; ?><!--</td>-->
-                <!--                            </tr>-->
-                <!---->
-                <!--                            <tr>-->
-                <!--                                <th>--><?php //= $this->Dictionary->GetKeyword('Contact Phone'); ?><!--</th>-->
-                <!--                                <td>--><?php //= $import['contact_phone'] ?><!--</td>-->
-                <!--                            </tr>-->
-                <!--                        </table>-->
-                <!--                    </div>-->
-                <!--                </div>-->
-                <!--                -->
-                <!--                <div class="row">-->
-                <!--                    --><?php //if (!empty($import['import_note'])): ?>
-                <!--                    <div class="col-md-12">-->
-                <!--                        <div class="panel panel-info">-->
-                <!--                            <div class="panel-heading">-->
-                <!--                                <h3 class="panel-title">--><?php //= $this->Dictionary->GetKeyword('Notes'); ?><!--</h3>-->
-                <!--                            </div>-->
-                <!--                            <div class="panel-body">-->
-                <!--                                --><?php //= nl2br($import['import_note'] ?? ''); ?>
-                <!--                            </div>-->
-                <!--                        </div>-->
-                <!--                    </div>-->
-                <!--                    --><?php //endif; ?>
-                <!--                    --><?php //if (!empty($import['import_attachment'])): ?>
-                <!--                        <div class="col-md-12">-->
-                <!--                            <div class="panel panel-success">-->
-                <!--                                <div class="panel-heading">-->
-                <!--                                    <h3 class="panel-title">--><?php //= $this->Dictionary->GetKeyword('Attachments'); ?><!--</h3>-->
-                <!--                                </div>-->
-                <!--                                <div class="panel-body">-->
-                <!--                                    <table class="table table-bordered table-striped">-->
-                <!--                                        <thead>-->
-                <!--                                            <tr>-->
-                <!--                                                <th width="5%">#</th>-->
-                <!--                                                <th>--><?php //= $this->Dictionary->GetKeyword('File Name'); ?><!--</th>-->
-                <!--                                                <th width="15%">--><?php //= $this->Dictionary->GetKeyword('Actions'); ?><!--</th>-->
-                <!--                                            </tr>-->
-                <!--                                        </thead>-->
-                <!--                                        <tbody>-->
-                <!--                                            --><?php //foreach ($import['import_attachment'] as $index => $attachment): ?>
-                <!--                                            <tr>-->
-                <!--                                                <td>--><?php //= $index + 1; ?><!--</td>-->
-                <!--                                                <td>--><?php //= $attachment['original_name']; ?><!--</td>-->
-                <!--                                                <td>-->
-                <!--                                                    <a href="--><?php //= base_url($attachment['file_path']); ?><!--" class="btn btn-sm btn-info" target="_blank">-->
-                <!--                                                        <i class="fa fa-eye"></i>-->
-                <!--                                                    </a>-->
-                <!--                                                </td>-->
-                <!--                                            </tr>-->
-                <!--                                            --><?php //endforeach; ?>
-                <!--                                        </tbody>-->
-                <!--                                    </table>-->
-                <!--                                </div>-->
-                <!--                            </div>-->
-                <!--                        </div>-->
-                <!--                    --><?php //endif; ?>
-                <!--                </div>-->
-
-
                 <!-- Import Answers Section -->
                 <?php if ( !empty($import['import_is_answer']) && $import['import_is_answer'] == 1): ?>
                     <div class="row">
@@ -814,6 +676,176 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- related out Section -->
+                <?php if(isset($outOfLastTrace) && !empty($outOfLastTrace)): ?>
+
+                    <div class="panel panel-success">
+                        <div class="panel-heading">
+                            <h3 class="panel-title" dir=''>
+                                <?= $this->Dictionary->GetKeyword('Related Out'); ?>
+                            </h3>
+                            <div class="pull-right">
+
+                                <a href="<?= base_url("Out/Details/" . $outOfLastTrace['id']);?>" target="_blank" class="btn btn-sm btn-default">
+                                    <i class="fa fa-eye"></i> <?= $this->Dictionary->GetKeyword('Show Full Details'); ?>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="panel-body">
+                            <?php if ($this->session->flashdata('success')): ?>
+                                <div class="alert alert-success"><?= $this->session->flashdata('success'); ?></div>
+                            <?php endif; ?>
+
+                            <?php if ($this->session->flashdata('error')): ?>
+                                <div class="alert alert-danger"><?= $this->session->flashdata('error'); ?></div>
+                            <?php endif; ?>
+
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <table class="table table-bordered table-striped">
+                                        <tr>
+                                            <th width="40%"><?= $this->Dictionary->GetKeyword('Out Code'); ?></th>
+                                            <td><?= $outOfLastTrace['out_book_code']; ?></td>
+                                        </tr>
+                                        <tr>
+                                            <th><?= $this->Dictionary->GetKeyword('Book Number'); ?></th>
+                                            <td><?= $outOfLastTrace['out_book_number']; ?></td>
+                                        </tr>
+                                        <tr>
+                                            <th><?= $this->Dictionary->GetKeyword('Book Issue Date'); ?></th>
+                                            <td><?= $outOfLastTrace['out_book_issue_date'] ? date('Y-m-d', strtotime($outOfLastTrace['out_book_issue_date'])) : ''; ?></td>
+                                        </tr>
+
+                                        <tr>
+                                            <th><?= $this->Dictionary->GetKeyword('To Department'); ?></th>
+                                            <td><?= $outOfLastTrace['out_to_department']; ?></td>
+                                        </tr>
+                                        <tr>
+                                            <th><?= $this->Dictionary->GetKeyword('From Department'); ?></th>
+                                            <td><?= $outOfLastTrace['out_from_department']; ?></td>
+                                        </tr>
+                                        <?php if(isset($outOfLastTrace['remote_branch_name']) && !empty($outOfLastTrace['remote_branch_name'])): ?>
+                                            <tr>
+                                                <th><?= $this->Dictionary->GetKeyword('To Remote Branch'); ?></th>
+                                                <td><span class="status-badge" style="background-color: #dc21f3"><?= $outOfLastTrace['remote_branch_name']; ?></span></td>
+                                            </tr>
+                                        <?php endif; ?>
+
+                                    </table>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <table class="table table-bordered table-striped">
+
+                                        <tr>
+                                            <th><?= $this->Dictionary->GetKeyword('Signed By'); ?></th>
+                                            <td><?= $outOfLastTrace['out_signed_by']; ?></td>
+                                        </tr>
+                                        <tr>
+                                            <th><?= $this->Dictionary->GetKeyword('Book Category'); ?></th>
+                                            <td><?= $outOfLastTrace['out_book_category'] ?? ''; ?></td>
+                                        </tr>
+                                        <tr>
+                                            <th><?= $this->Dictionary->GetKeyword('Book Language'); ?></th>
+                                            <td><?= $outOfLastTrace['out_book_language'] ?? ''; ?></td>
+                                        </tr>
+
+                                        <tr>
+                                            <th><?= $this->Dictionary->GetKeyword('Created By'); ?></th>
+                                            <td><?= $outOfLastTrace['created_by_name']; ?></td>
+                                        </tr>
+                                        <tr>
+                                            <th><?= $this->Dictionary->GetKeyword('Book Subject'); ?></th>
+                                            <td><?= $outOfLastTrace['out_book_subject']; ?></td>
+                                        </tr>
+
+                                        <tr>
+                                            <th><?= $this->Dictionary->GetKeyword('Entry Date'); ?></th>
+                                            <td><?= $outOfLastTrace['out_created_at'] ? date('Y-m-d', strtotime($outOfLastTrace['out_created_at'])) : ''; ?></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="row">
+<!--                                --><?php //if (!empty($outOfLastTrace['out_note'])): ?>
+<!--                                    <div class="col-md-12">-->
+<!--                                        <div class="panel panel-info">-->
+<!--                                            <div class="panel-heading">-->
+<!--                                                <h3 class="panel-title">--><?php //= $this->Dictionary->GetKeyword('Notes'); ?><!--</h3>-->
+<!--                                            </div>-->
+<!--                                            <div class="panel-body">-->
+<!--                                                --><?php //= nl2br($outOfLastTrace['out_note'] ?? ''); ?>
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!---->
+<!--                                    <div class="col-md-12">-->
+<!--                                        <div class="panel panel-info">-->
+<!--                                            <div class="panel-heading">-->
+<!--                                                <h3 class="panel-title">--><?php //= $this->Dictionary->GetKeyword('Body'); ?><!--</h3>-->
+<!--                                            </div>-->
+<!--                                            <div class="panel-body">-->
+<!--                                                --><?php //= nl2br($outOfLastTrace['out_book_body'] ?? ''); ?>
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!---->
+<!--                                    <div class="col-md-12">-->
+<!--                                        <div class="panel panel-primary">-->
+<!--                                            <div class="panel-heading">-->
+<!--                                                <h3 class="panel-title">--><?php //= $this->Dictionary->GetKeyword('Copy List'); ?><!--</h3>-->
+<!--                                            </div>-->
+<!--                                            <div class="panel-body">-->
+<!--                                                --><?php //= nl2br($outOfLastTrace['out_book_copy_list'] ?? ''); ?>
+<!--                                            </div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!---->
+<!---->
+<!--                                --><?php //endif; ?>
+                                <?php if (!empty($outOfLastTrace['out_attachment'])): ?>
+                                    <div class="col-md-12">
+                                        <div class="panel panel-success">
+                                            <div class="panel-heading">
+                                                <h3 class="panel-title"><?= $this->Dictionary->GetKeyword('Attachments'); ?></h3>
+                                            </div>
+                                            <div class="panel-body">
+                                                <table class="table table-bordered table-striped">
+                                                    <thead>
+                                                    <tr>
+                                                        <th width="5%">#</th>
+                                                        <th><?= $this->Dictionary->GetKeyword('File Name'); ?></th>
+                                                        <th width="15%"><?= $this->Dictionary->GetKeyword('Actions'); ?></th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <?php foreach ($outOfLastTrace['out_attachment'] as $index => $attachment): ?>
+                                                        <tr>
+                                                            <td><?= $index + 1; ?></td>
+                                                            <td><?= $attachment['original_name']; ?></td>
+                                                            <td>
+                                                                <a href="<?= base_url($attachment['file_path']); ?>" class="btn btn-sm btn-info" target="_blank">
+                                                                    <i class="fa fa-eye"></i>
+                                                                </a>
+                                                            </td>
+                                                        </tr>
+                                                    <?php endforeach; ?>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <?php endif; ?>
+                            </div>
+
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+
+                <?php endif; ?>
 
             </div>
             <!-- /.card-body -->

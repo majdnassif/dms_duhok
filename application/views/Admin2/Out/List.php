@@ -57,6 +57,15 @@
 <!-- /.content-wrapper -->
 
 <script>
+
+    $(document).ready(function() {
+        // Initialize select2 for the element
+        $('#filter_out_signed_by').select2({
+            placeholder: '<?php echo  $this->Dictionary->GetKeyword("Select_Signed_By" ); ?>',
+            allowClear: true
+        });
+    });
+
     function refresh() {
         $('#Filter-btn').click();
     }

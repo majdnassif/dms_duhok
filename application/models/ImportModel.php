@@ -248,7 +248,7 @@ class ImportModel extends CI_Model {
         u.`name` as `created_by_name`
         FROM
         `import_answers` ia
-        INNER JOIN department d ON d.id = ia.out_from_department_id
+        LEFT JOIN department d ON d.id = ia.out_from_department_id
         LEFT JOIN user u ON u.USER_ID = ia.created_by
         WHERE import_id = ?
         and ia.deleted_at IS NULL
