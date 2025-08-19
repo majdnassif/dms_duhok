@@ -434,7 +434,7 @@
     function deleteAttachment(outId, fileIndex) {
         if (confirm('<?= $this->Dictionary->GetKeyword('Are you sure you want to delete this attachment?'); ?>')) {
             $.ajax({
-                url: '<?= base_url('Import/AjaxDeleteAttachment'); ?>',
+                url: '<?= base_url('Out/AjaxDeleteAttachment'); ?>',
                 type: 'POST',
                 data: {
                     out_id: outId,

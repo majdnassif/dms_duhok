@@ -753,7 +753,7 @@ class Out extends CI_Controller
         $out_id = $this->input->post('out_id');
         $file_index = $this->input->post('file_index');
 
-        $out = $this->OutModel->GetOuttDetails($out_id);
+        $out = $this->OutModel->GetOutDetails($out_id);
 
         if (!$out || empty($out['out_attachment'])) {
             echo json_encode(['status' => 'error', 'message' => 'Out document or attachment not found']);
@@ -945,4 +945,4 @@ class Out extends CI_Controller
     }
 
 
-} 
+}
