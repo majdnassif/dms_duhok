@@ -451,7 +451,8 @@ class Out extends CI_Controller
 
         $out_is_new = $this->input->post("out_is_new");
 
-        if ($out_is_new && $out_is_new == 'true') {
+        if ($out_is_new && ($out_is_new == 'true'  || $out_is_new == 'false')) {
+
 
             $local_ids_query = $this->db->query("SELECT distinct remote_out_id FROM `import` where remote_branch_id = $branch_id ");
             $local_ids = array_column($local_ids_query->result_array(), 'remote_out_id');
@@ -460,10 +461,13 @@ class Out extends CI_Controller
             // Sanitize and convert to comma-separated list
             $not_in_ids_str = implode(',', array_map('intval', $not_in_ids));
 
+
             // Append the NOT IN condition to your remote SQL
-            $filter .= " AND o.id NOT IN ($not_in_ids_str) ";
+            $condition_in = $out_is_new == 'true' ? "NOT IN " : "  IN ";
+            $filter .= " AND o.id $condition_in ($not_in_ids_str) ";
 
         }
+
         $import_docs = $this->OutModel->GetOutListRemote($branch_id, $filter, $start, $length, $order);
         $import_docs_data = $import_docs['data'];
         $num_rows = $import_docs['count'];

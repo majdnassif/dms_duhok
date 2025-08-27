@@ -20,6 +20,7 @@ application/logs/*
 .DS_Store
 /assets/uploads/attachments/*
 /db/*
+/application/config/database.php
 
 
 # **************** application/config/config.php *************

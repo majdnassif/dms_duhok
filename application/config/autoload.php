@@ -58,7 +58,7 @@ $autoload['packages'] = array(APPPATH.'third_party');
 |
 |	$autoload['libraries'] = array('user_agent' => 'ua');
 */
-$autoload['libraries'] = array('Crypt','database','session','form_validation');
+$autoload['libraries'] = array('Crypt','database','session','form_validation', 'RemoteConnectionMapperHelper');
 
 /*
 | -------------------------------------------------------------------
@@ -89,7 +89,7 @@ $autoload['drivers'] = array();
 |
 |	$autoload['helper'] = array('url', 'file');
 */
-$autoload['helper'] = array('url','system_helper', 'remoteconnectionmapper_helper');
+$autoload['helper'] = array('url','system_helper');
 
 /*
 | -------------------------------------------------------------------
