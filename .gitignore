@@ -21,7 +21,7 @@ application/logs/*
 /assets/uploads/attachments/*
 /db/*
 /application/config/database.php
-
+/.vscode
 
 # **************** application/config/config.php *************
 # to ignore next changes in  application/config/config.php i used this command              git update-index --assume-unchanged application/config/config.php
