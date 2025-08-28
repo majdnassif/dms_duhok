@@ -1,0 +1,50 @@
+name: Deploy App to Linux Server
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Create deployment directory and move files
+        run: |
+          mkdir deployment
+          shopt -s extglob dotglob
+          mv !(deployment) deployment/
+          rm -rf deployment/.git
+          rm -rf deployment/.github
+          rm -rf deployment/.vscode
+          rm -rf deployment/application/config/database.php
+
+      - name: Compress deployment folder
+        run: |
+          tar -czf dms_app.tar.gz -C deployment .
+
+      - name: Upload compressed file to server
+        uses: appleboy/scp-action@v0.1.6
+        with:
+          host: ${{ secrets.SERVER_HOST_PROD }}
+          username: ${{ secrets.SERVER_USERNAME_PROD }}
+          password: ${{ secrets.SSH_PRIVATE_KEY_PROD }}
+          source: dms_app.tar.gz
+          target: /var/www/webdeploy/
+
+      - name: Deploy to server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SERVER_HOST_PROD }}
+          username: ${{ secrets.SERVER_USERNAME_PROD }}
+          password: ${{ secrets.SSH_PRIVATE_KEY_PROD }}
+          script: |
+            echo "${{ secrets.SSH_PRIVATE_KEY_PROD }}" | sudo -S tar xzf /var/www/webdeploy/dms_app.tar.gz -C /var/www/dms
+            echo "${{ secrets.SSH_PRIVATE_KEY_PROD }}" | sudo -S rm /var/www/webdeploy/dms_app.tar.gz
+            echo "${{ secrets.SSH_PRIVATE_KEY_PROD }}" | sudo -S chmod 775 -R /var/www/dms
+            echo "${{ secrets.SSH_PRIVATE_KEY_PROD }}" | sudo -S chown root:webdev -R /var/www/dms
+            cd /var/www/dms && composer install --no-dev --prefer-dist
